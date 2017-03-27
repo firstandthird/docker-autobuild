@@ -1,0 +1,4 @@
+#!/bin/bash
+
+echo "$GITHUB_EVENT for $GITHUB_USER/$GITHUB_REPO triggered. Nothing to do."
+
