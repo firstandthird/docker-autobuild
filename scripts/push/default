@@ -8,4 +8,4 @@ if [[ -n "$ONLY_BRANCH" && "$ONLY_BRANCH" != "$GITHUB_BRANCH" ]]; then
   echo "looking for $ONLY_BRANCH, got $GITHUB_BRANCH"
   exit 0
 fi
-bash ../lib/build
+bash /scripts/lib/build
