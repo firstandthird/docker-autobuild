@@ -8,4 +8,22 @@ if [[ -n "$ONLY_BRANCH" && "$ONLY_BRANCH" != "$GITHUB_BRANCH" ]]; then
   echo "looking for $ONLY_BRANCH, got $GITHUB_BRANCH"
   exit 0
 fi
-bash /scripts/lib/build
+IMAGE=$(bash /scripts/lib/build)
+
+if [[ "$?" != 0 ]]; then
+  echo $IMAGE
+  exit
+fi
+
+if [[ -n "$HOOK" ]]; then
+  echo "triggering hook: $HOOK"
+  curl \
+   -H "Content-Type: application/json" \
+   -X POST \
+   -d "{\"repo\":\"$GITHUB_REPO\",\"user\":\"$GITHUB_USER\",\"branch\":\"$GITHUB_BRANCH\",\"dockerImage\":\"$IMAGE\"}" \
+   $HOOK >> /dev/null 2>&1
+
+  if [[ "$?" != 0 ]]; then
+    echo "Hook errored"
+  fi
+fi
