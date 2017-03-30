@@ -6,14 +6,15 @@ RUN chmod +x /usr/local/bin/dumb-init
 
 RUN mkdir /app && \
   cd /app && \
-  npm i --silent --progress=false hubhooks@0.2.0
+  npm i --silent --progress=false hubhooks@0.2.1
 
 WORKDIR /app/node_modules/hubhooks
 
 ENV PORT=8080
 ENV SECRET=""
 ENV GITHUB_TOKEN=""
-ENV ONLY_TAGS=1
+ENV ONLY_TAGS=0
+ENV TAG_LATEST=1
 
 VOLUME /repos
 
