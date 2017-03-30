@@ -1,7 +1,7 @@
 #!/bin/bash
 
 #build repo
-BUILDER="firstandthird/builder:0.0.12"
+BUILDER="firstandthird/builder:0.1.0"
 docker pull $BUILDER > /dev/null 2>&1
 if [[ "$?" != 0 ]]; then
   echo "error pulling image"
@@ -13,11 +13,17 @@ IMAGE=$(docker run \
   -e REPO=$GITHUB_REPO \
   -e BRANCH=$GITHUB_BRANCH \
   -e TOKEN=$GITHUB_TOKEN \
-  -e TAG=$DOCKER_TAG \
+  -e DEBUG=1 \
   -e PUSH=1 \
-  -e PUSH_LATEST=1 \
+  -e TAG_LATEST=1 \
+  -e TAG_BRANCH=1 \
   -e REGISTRY=$REGISTRY \
   -e DOCKER_AUTH=$DOCKER_AUTH \
+  -e WEBHOOK=$WEBHOOK \
+  -e SLACK_HOOK=$SLACK_HOOK \
+  -e SLACK_CHANNEL=$SLACK_CHANNEL \
+  -e SLACK_NAME=docker-autobuild \
+  -e SLACK_EMOJI=$SLACK_EMOJI \
   -v /var/run/docker.sock:/var/run/docker.sock \
   -v /repos:/repos \
   ${BUILDER})

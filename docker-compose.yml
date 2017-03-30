@@ -6,8 +6,9 @@ app:
     DOCKER_AUTH:
     VIRTUAL_HOST: "autobuild.*"
     VERBOSE: 1
-    ONLY_TAGS:
-    HOOK:
+    WEBHOOK:
+    SLACK_HOOK:
+    SLACK_CHANNEL:
     ONLY_BRANCH:
     REGISTRY:
   volumes:
