@@ -1,7 +1,7 @@
 #!/bin/bash
 
 #build repo
-BUILDER="firstandthird/builder:0.2.0"
+BUILDER="firstandthird/builder:0.2.2"
 docker pull $BUILDER > /dev/null 2>&1
 if [[ "$?" != 0 ]]; then
   echo "error pulling image"
@@ -15,7 +15,8 @@ docker run \
   -e TOKEN=$GITHUB_TOKEN \
   -e DEBUG=1 \
   -e PUSH=1 \
-  -e TAG_PREFIX_BRANCH=1 \
+  -e TAG=$TAG \
+  -e TAG_PREFIX_BRANCH=$TAG_PREFIX_BRANCH \
   -e REGISTRY=$REGISTRY \
   -e DOCKER_AUTH=$DOCKER_AUTH \
   -e WEBHOOK=$WEBHOOK \

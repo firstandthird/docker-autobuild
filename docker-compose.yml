@@ -9,6 +9,7 @@ app:
     WEBHOOK:
     SLACK_HOOK:
     SLACK_CHANNEL:
+    ONLY_TAGS:
     ONLY_BRANCH:
     REGISTRY:
   volumes:
