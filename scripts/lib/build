@@ -1,13 +1,13 @@
 #!/bin/bash
 
 #build repo
-BUILDER="firstandthird/builder:0.1.0"
+BUILDER="firstandthird/builder:0.2.0"
 docker pull $BUILDER > /dev/null 2>&1
 if [[ "$?" != 0 ]]; then
   echo "error pulling image"
   exit 1
 fi
-IMAGE=$(docker run \
+docker run \
   --rm \
   -e USER=$GITHUB_USER \
   -e REPO=$GITHUB_REPO \
@@ -15,8 +15,7 @@ IMAGE=$(docker run \
   -e TOKEN=$GITHUB_TOKEN \
   -e DEBUG=1 \
   -e PUSH=1 \
-  -e TAG_LATEST=1 \
-  -e TAG_BRANCH=1 \
+  -e TAG_PREFIX_BRANCH=1 \
   -e REGISTRY=$REGISTRY \
   -e DOCKER_AUTH=$DOCKER_AUTH \
   -e WEBHOOK=$WEBHOOK \
@@ -26,12 +25,4 @@ IMAGE=$(docker run \
   -e SLACK_EMOJI=$SLACK_EMOJI \
   -v /var/run/docker.sock:/var/run/docker.sock \
   -v /repos:/repos \
-  ${BUILDER})
-
-if [[ "$?" != 0 ]]; then
-  echo "there was an error building"
-  echo $IMAGE
-  #post2slack --tags error --message "$GITHUB_REPO#$GITHUB_BRANCH failed to build $IMAGE"
-  exit 1
-fi
-echo $IMAGE
+  ${BUILDER}
