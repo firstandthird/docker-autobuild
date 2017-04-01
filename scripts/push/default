@@ -9,5 +9,6 @@ if [[ -n "$ONLY_BRANCH" && "$ONLY_BRANCH" != "$GITHUB_BRANCH" ]]; then
   exit 0
 fi
 
+export TAG_BRANCH=1
 export TAG_PREFIX_BRANCH=1
 bash /scripts/lib/build
