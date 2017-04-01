@@ -17,6 +17,7 @@ docker run \
   -e PUSH=1 \
   -e TAG=$TAG \
   -e TAG_PREFIX_BRANCH=$TAG_PREFIX_BRANCH \
+  -e TAG_BRANCH=1 \
   -e REGISTRY=$REGISTRY \
   -e DOCKER_AUTH=$DOCKER_AUTH \
   -e WEBHOOK=$WEBHOOK \
