@@ -15,3 +15,4 @@ app:
   volumes:
     - '/var/run/docker.sock:/var/run/docker.sock'
     - './scripts:/scripts'
+    - './repos:/repos'
