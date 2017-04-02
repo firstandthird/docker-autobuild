@@ -1,10 +1,10 @@
 #!/bin/bash
 
 #build repo
-BUILDER="firstandthird/builder:0.2.3"
+BUILDER="firstandthird/docker-builder:0.3.0"
 docker pull $BUILDER > /dev/null 2>&1
 if [[ "$?" != 0 ]]; then
-  echo "error pulling image"
+  echo "error pulling builder image"
   exit 1
 fi
 docker run \
@@ -18,6 +18,7 @@ docker run \
   -e TAG=$TAG \
   -e TAG_PREFIX_BRANCH=$TAG_PREFIX_BRANCH \
   -e TAG_BRANCH=$TAG_BRANCH \
+  -e TAG_LATEST=$TAG_LATEST \
   -e REGISTRY=$REGISTRY \
   -e DOCKER_AUTH=$DOCKER_AUTH \
   -e WEBHOOK=$WEBHOOK \

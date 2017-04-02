@@ -1,14 +1,28 @@
 #!/bin/bash
 
-if [[ "$ONLY_TAGS" == "1" ]]; then
-  exit 0
+if [[ "$GITHUB_BRANCH" =~ "refs/tags" ]]; then
+  #its a tag
+  if [[ -n "$ONLY_BRANCH" ]]; then
+    exit 0
+  fi
+  refArr=(${GITHUB_BRANCH//\// })
+  export TAG=${refArr[-1]}
+  echo "Processing tag $TAG"
+  export GITHUB_BRANCH=$TAG
+  export TAG_PREFIX_BRANCH=0
+  export TAG_LATEST=1
+else
+  #its a branch
+  if [[ "$ONLY_TAGS" == "1" ]]; then
+    exit 0
+  fi
+  if [[ -n "$ONLY_BRANCH" && "$ONLY_BRANCH" != "$GITHUB_BRANCH" ]]; then
+    echo "looking for $ONLY_BRANCH, got $GITHUB_BRANCH"
+    exit 0
+  fi
+  echo "Processing branch $GITHUB_BRANCH"
+  export TAG_BRANCH=1
+  export TAG_PREFIX_BRANCH=1
 fi
 
-if [[ -n "$ONLY_BRANCH" && "$ONLY_BRANCH" != "$GITHUB_BRANCH" ]]; then
-  echo "looking for $ONLY_BRANCH, got $GITHUB_BRANCH"
-  exit 0
-fi
-
-export TAG_BRANCH=1
-export TAG_PREFIX_BRANCH=1
 bash /scripts/lib/build

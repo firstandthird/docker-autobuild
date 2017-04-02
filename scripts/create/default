@@ -1,7 +1,0 @@
-#!/bin/bash
-
-if [[ "$ONLY_TAGS" == "1" && "$GITHUB_REF_TYPE" == "tag" ]]; then
-  export TAG=$GITHUB_BRANCH
-  export TAG_PREFIX_BRANCH=0
-  bash /scripts/lib/build
-fi
