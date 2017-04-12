@@ -1,7 +1,7 @@
 #!/bin/bash
 
 #build repo
-BUILDER="firstandthird/docker-builder:0.4.0"
+BUILDER="firstandthird/docker-builder:0.5.0"
 docker pull $BUILDER > /dev/null 2>&1
 if [[ "$?" != 0 ]]; then
   echo "error pulling builder image"
