@@ -22,7 +22,7 @@ else
   fi
   echo "Processing branch $GITHUB_BRANCH"
   export TAG_BRANCH=1
-  export TAG_PREFIX_BRANCH=1
+  export TAG_BRANCH_PREVIOUS=1
 fi
 
 bash /scripts/lib/build
