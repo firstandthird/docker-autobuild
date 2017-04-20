@@ -6,7 +6,7 @@ RUN chmod +x /usr/local/bin/dumb-init
 
 RUN mkdir /app && \
   cd /app && \
-  npm i --silent --progress=false hubhooks@0.3.0
+  npm i --silent --progress=false hubhooks@0.4.0
 
 WORKDIR /app/node_modules/hubhooks
 
