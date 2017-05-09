@@ -1,7 +1,7 @@
 #!/bin/bash
 
 #build repo
-BUILDER="firstandthird/docker-builder:0.6.0"
+BUILDER="firstandthird/docker-builder:0.7.0"
 docker pull $BUILDER > /dev/null 2>&1
 if [[ "$?" != 0 ]]; then
   echo "error pulling builder image"
@@ -24,7 +24,7 @@ docker run \
   -e TAG_LATEST=$TAG_LATEST \
   -e REGISTRY=$REGISTRY \
   -e DOCKER_AUTH=$DOCKER_AUTH \
-  -e WEBHOOK=$WEBHOOK \
+  -e WEBHOOK="$WEBHOOK" \
   -e SLACK_HOOK=$SLACK_HOOK \
   -e SLACK_CHANNEL=$SLACK_CHANNEL \
   -e REGISTRY2=$REGISTRY2 \
