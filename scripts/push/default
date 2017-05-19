@@ -1,28 +1,38 @@
-#!/bin/bash
+#!/usr/bin/env node
 
-if [[ "$GITHUB_BRANCH" =~ "refs/tags" ]]; then
-  #its a tag
-  if [[ -n "$ONLY_BRANCH" ]]; then
-    exit 0
-  fi
-  refArr=(${GITHUB_BRANCH//\// })
-  export TAG=${refArr[-1]}
-  echo "Processing tag $TAG"
-  export GITHUB_BRANCH=$TAG
-  export TAG_PREFIX_BRANCH=0
-  export TAG_LATEST=1
-else
-  #its a branch
-  if [[ "$ONLY_TAGS" == "1" ]]; then
-    exit 0
-  fi
-  if [[ -n "$ONLY_BRANCH" && "$ONLY_BRANCH" != "$GITHUB_BRANCH" ]]; then
-    echo "looking for $ONLY_BRANCH, got $GITHUB_BRANCH"
-    exit 0
-  fi
-  echo "Processing branch $GITHUB_BRANCH"
-  export TAG_BRANCH=1
-  export TAG_BRANCH_PREVIOUS=1
-fi
+const confi = require('/app/node_modules/confi');
+const runshell = require('/app/node_modules/runshell');
+const envs = process.env;
 
-bash /scripts/lib/build
+confi({
+  configPath: envs.CONFIG_PATH,
+  url: envs.CONFIG_URL
+}, (err, config) => {
+  if (err) {
+    throw err;
+  }
+
+  let repo = config.repos[envs.GITHUB_REPO];
+  if (!repo) {
+    console.log(`${envs.GITHUB_REPO} doesn't match config, skipping`);
+    return;
+  }
+  if (config.slack) {
+    repo = Object.assign(repo, config.slack);
+  }
+  if (repo.ONLY_TAGS)  {
+    if (envs.GITHUB_BRANCH.indexOf('refs/tags') !== -1) {
+      process.env.GITHUB_BRANCH = envs.GITHUB_BRANCH.replace('refs/tags/', '');
+    } else {
+      return;
+    }
+  }
+  runshell('/scripts/lib/build', {
+    log: true,
+    env: repo
+  }, (err, out) => {
+    if (err) {
+      console.log(err);
+    }
+  });
+});

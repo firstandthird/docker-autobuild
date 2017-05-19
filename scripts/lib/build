@@ -27,7 +27,6 @@ docker run \
   -e WEBHOOK="$WEBHOOK" \
   -e SLACK_HOOK=$SLACK_HOOK \
   -e SLACK_CHANNEL=$SLACK_CHANNEL \
-  -e REGISTRY2=$REGISTRY2 \
   -e SLACK_NAME=docker-autobuild \
   -e SLACK_EMOJI=$SLACK_EMOJI \
   -v /var/run/docker.sock:/var/run/docker.sock \

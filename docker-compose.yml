@@ -6,12 +6,9 @@ app:
     DOCKER_AUTH:
     VIRTUAL_HOST: "autobuild.*"
     VERBOSE: 1
-    WEBHOOK:
-    SLACK_HOOK:
-    SLACK_CHANNEL:
-    ONLY_TAGS:
-    ONLY_BRANCH:
     REGISTRY:
+    CONFIG_URL:
+    CONFIG_PATH:
   volumes:
     - '/var/run/docker.sock:/var/run/docker.sock'
     - './scripts:/scripts'
