@@ -24,6 +24,7 @@ confi({
     if (envs.GITHUB_BRANCH.indexOf('refs/tags') !== -1) {
       process.env.GITHUB_BRANCH = envs.GITHUB_BRANCH.replace('refs/tags/', '');
     } else {
+      console.log(`Set to only tags and got ${envs.GITHUB_BRANCH}`);
       return;
     }
   }
