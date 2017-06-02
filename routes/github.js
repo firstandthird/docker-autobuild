@@ -1,10 +1,6 @@
 'use strict';
 const crypto = require('crypto');
 const Boom = require('boom');
-const runshell = require('runshell');
-const async = require('async');
-const wreck = require('wreck');
-//const tmpl = require('tinytemplate');
 
 exports.github = {
   method: 'POST',
@@ -57,102 +53,14 @@ exports.github = {
         reply(null, 'ok');
         done();
       },
-      config(settings, data, done) {
-        const matchedConfig = [];
-        if (data.event !== 'push') {
-          return done(null, matchedConfig);
-        }
-        const repoSettings = settings.repos[data.repo];
-        if (!repoSettings) {
-          return done(null, matchedConfig);
-        }
-        repoSettings.forEach((config) => {
-          const namespace = config.namespace || data.user;
-          let tagName;
-          if (config.type === 'branch' && data.branch && data.branch.match(config.name)) {
-            tagName = config.tagName || data.branch;
-          }
-          if (config.type === 'tag' && data.tag && data.tag.match(config.name)) {
-            tagName = config.tagName || data.tag;
-          }
-          if (!tagName) {
-            return;
-          }
-          if (tagName === '${sourceref}') {
-            tagName = data.tag || data.branch;
-          }
-          //tagName = tmpl(tagName, { sourceref: data.tag || data.branch });
-          matchedConfig.push({
-            image: `${namespace}/${data.repo}:${tagName}`,
-            hook: config.hook,
-            data,
-            config
-          });
-        });
-        done(null, matchedConfig);
+      config(server, settings, data, done) {
+        server.methods.getConfig(settings, data, done);
       },
       build(server, settings, config, data, done) {
-        const hooks = [];
-        if (config.length === 0) {
-          server.log(['github', 'debug'], { message: 'no matches, skipping', data });
-        }
-        async.eachSeries(config, (item, next) => {
-          server.log(['builder', 'notice', item.image], `Building ${item.image}`);
-          const start = new Date().getTime();
-          runshell('/home/app/builder', {
-            log: true,
-            verbose: true,
-            env: {
-              USER: data.user,
-              REPO: data.repo,
-              BRANCH: data.branch || data.tag,
-              TOKEN: settings.githubToken,
-              IMAGE_NAME: item.image,
-              DEBUG: 1
-            }
-          }, (err) => {
-            if (err) {
-              server.log(['builder', 'error', item.image], err);
-            } else {
-              const duration = (new Date().getTime() - start) / 1000;
-              server.log(['builder', 'success', item.image], {
-                message: `${item.image} built successfully in ${duration}s`,
-                item,
-                duration
-              });
-              if (item.hook) {
-                hooks.push(item);
-              }
-            }
-            next();
-          });
-        }, (err) => {
-          if (err) {
-            return done(err);
-          }
-          done(null, hooks);
-        });
+        server.methods.build(config, settings, data, done);
       },
       hooks(server, build, done) {
-        async.each(build, (item, next) => {
-          server.log(['hook', 'notice'], {
-            message: `Sending webhook: ${item.hook}`,
-            item
-          });
-          wreck.post(item.hook, {
-            payload: JSON.stringify({
-              image: item.image,
-              item
-            })
-          }, (err) => {
-            if (err) {
-              server.log(['hook', 'error', item.hook, item.image], err);
-            } else {
-              server.log(['hook', 'success'], item);
-            }
-            next();
-          });
-        }, done);
+        server.methods.processHooks(build, done);
       }
     }
   }
