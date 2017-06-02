@@ -2,8 +2,6 @@ githubToken: '{{ENV.GITHUB_TOKEN}}'
 secret: '{{ENV.SECRET}}'
 slackHook: '{{ENV.SLACK_HOOK}}'
 plugins:
-  hapi-method-loader:
-    _enabled: false
   hapi-logr:
     reporters:
       logr-slack:
