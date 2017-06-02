@@ -11,8 +11,8 @@ exports.github = {
         secret: Joi.string().required(),
         event: Joi.string().required().default('push'),
         repo: Joi.string().required(),
-        branch: Joi.string().optional(),
-        tag: Joi.string().optional(),
+        branch: Joi.string().optional().allow(''),
+        tag: Joi.string().optional().allow(''),
         user: Joi.string().required()
       }
     }
@@ -27,6 +27,7 @@ exports.github = {
           server.log(['manual', 'secret'], 'Secret didnt match');
           return done(Boom.unauthorized('Permission Denied'));
         }
+        done();
       },
       data(server, request, done) {
         const payload = request.payload;
@@ -41,7 +42,7 @@ exports.github = {
         reply(null, 'ok');
         done();
       },
-      config(server, settings, data, done) {
+      config(send, server, settings, data, done) {
         server.methods.getConfig(settings, data, done);
       },
       build(server, settings, config, data, done) {
