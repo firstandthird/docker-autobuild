@@ -7,9 +7,8 @@ app:
     GITHUB_TOKEN:
     VIRTUAL_HOST: "autobuild.*"
     SLACK_HOOK:
-    VERBOSE: 1
+    RAPPTOR_CONFIG_URL:
   volumes:
     - './:/home/app/src'
     - '/var/run/docker.sock:/var/run/docker.sock'
-    - './example.yaml:/home/app/src/conf/default-repos.yaml'
     - '$HOME/.docker:/home/app/.docker'
