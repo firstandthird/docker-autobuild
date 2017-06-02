@@ -1,0 +1,22 @@
+githubToken: '{{ENV.GITHUB_TOKEN}}'
+secret: '{{ENV.SECRET}}'
+slackHook: '{{ENV.SLACK_HOOK}}'
+plugins:
+  hapi-method-loader:
+    _enabled: false
+  hapi-logr:
+    reporters:
+      logr-slack:
+        reporter: 'logr-slack'
+        enabled: '{{(slackHook)}}'
+        options:
+          hideTags: true
+          filter:
+            - 'builder'
+            - 'warning'
+            - 'error'
+          slackHook: '{{slackHook}}'
+          username: 'AutoBuild'
+          icon_emoji: ':wrench:'
+  hapi-auto-handler:
+    _priority: -4

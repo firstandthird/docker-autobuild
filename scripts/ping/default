@@ -1,3 +1,0 @@
-#!/bin/bash
-
-echo "$GITHUB_USER/$GITHUB_REPO set up for auto build"

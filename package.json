@@ -1,0 +1,33 @@
+{
+  "name": "docker-autobuild",
+  "private": "true",
+  "homepage": "https://github.com/firstandthird/docker-autobuild",
+  "author": "First+Third",
+  "scripts": {
+    "start": "rapptor",
+    "dev": "npm install && npm prune && nodemon -x npm start"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/firstandthird/docker-autobuild.git"
+  },
+  "dependencies": {
+    "async": "^2.4.1",
+    "boom": "^5.1.0",
+    "hapi-auto-handler": "^1.4.1",
+    "logr-slack": "^1.1.0",
+    "rapptor": "^1.14.0",
+    "runshell": "^0.3.0",
+    "tinytemplate": "^1.0.0",
+    "wreck": "^12.2.2"
+  },
+  "devDependencies": {
+    "eslint": "^3.19.0",
+    "eslint-config-firstandthird": "^3.3.0",
+    "eslint-plugin-import": "^2.3.0",
+    "nodemon": "^1.11.0"
+  },
+  "eslintConfig": {
+    "extends": "firstandthird"
+  }
+}

@@ -1,0 +1,14 @@
+FROM firstandthird/node:6.10-3-nobuild
+
+USER root
+RUN apk add --update docker curl bash
+
+RUN curl https://raw.githubusercontent.com/firstandthird/docker-builder/master/builder > /home/app/builder
+RUN chmod +x /home/app/builder
+
+ENV PORT=8080
+ENV SECRET=""
+ENV GITHUB_TOKEN=""
+ENV REPOS=/home/app/src/repos
+
+EXPOSE 8080

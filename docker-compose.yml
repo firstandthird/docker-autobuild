@@ -1,15 +1,15 @@
 app:
   build: '.'
+  dockerfile: 'DockerfileDev'
+  command: 'npm run dev'
   environment:
     SECRET:
     GITHUB_TOKEN:
-    DOCKER_AUTH:
     VIRTUAL_HOST: "autobuild.*"
+    SLACK_HOOK:
     VERBOSE: 1
-    REGISTRY:
-    CONFIG_URL:
-    CONFIG_PATH:
   volumes:
+    - './:/home/app/src'
     - '/var/run/docker.sock:/var/run/docker.sock'
-    - './scripts:/scripts'
-    - './repos:/repos'
+    - './example.yaml:/home/app/src/conf/default-repos.yaml'
+    - '$HOME/.docker:/home/app/.docker'
