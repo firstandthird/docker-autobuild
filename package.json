@@ -15,6 +15,7 @@
     "async": "^2.4.1",
     "boom": "^5.1.0",
     "hapi-auto-handler": "^1.4.1",
+    "joi": "^10.5.2",
     "logr-slack": "^1.1.0",
     "rapptor": "^1.14.0",
     "runshell": "^0.3.0",
