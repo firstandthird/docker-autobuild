@@ -21,6 +21,7 @@ module.exports = function(config, settings, data, done) {
         DEBUG: 1
       }
     }, (err) => {
+      server.log(['builder', 'notice'], 'Build complete');
       if (err) {
         server.log(['builder', 'error', item.image], err);
       } else {
