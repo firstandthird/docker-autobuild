@@ -3,12 +3,13 @@ app:
   dockerfile: 'DockerfileDev'
   command: 'npm run dev'
   environment:
-    SECRET:
-    GITHUB_TOKEN:
+    SECRET: 'secret'
+    GITHUB_TOKEN: '72a314ad2c6ff0d32bb8ec9e93fbf2ffbac32ff4'
     VIRTUAL_HOST: "autobuild.*"
-    SLACK_HOOK:
-    RAPPTOR_CONFIG_URL:
+    SLACK_HOOK: 'https://hooks.slack.com/services/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'
+    RAPPTOR_CONFIG_URL: 'https://storage.googleapis.com/gcow-builder/builder.yaml?v=6'
   volumes:
     - './:/home/app/src'
+    - '/repos:/repos'
     - '/var/run/docker.sock:/var/run/docker.sock'
-    - '$HOME/.docker:/home/app/.docker'
+#     - '$HOME/.docker:/home/app/.docker'
