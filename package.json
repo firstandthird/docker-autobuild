@@ -18,7 +18,7 @@
     "joi": "^10.5.2",
     "logr-slack": "^1.1.0",
     "rapptor": "^1.15.1",
-    "runshell": "^0.3.0",
+    "runshell": "^0.3.1",
     "tinytemplate": "^1.0.0",
     "wreck": "^12.2.2"
   },
