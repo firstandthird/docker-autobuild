@@ -21,14 +21,12 @@ module.exports = function(config, settings, data, done) {
         DEBUG: 1
       }
     }, (err) => {
-      server.log(['builder', 'notice'], 'Build complete');
       if (err) {
         server.log(['builder', 'error', item.image], err);
       } else {
         const duration = (new Date().getTime() - start) / 1000;
         server.log(['builder', 'success', item.image], {
           message: `${item.image} built successfully in ${duration}s`,
-          item,
           duration
         });
         if (item.hook) {
