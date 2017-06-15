@@ -1,0 +1,12 @@
+repos:
+  dummy-app:
+    - type: 'branch'
+      name: 'master'
+      tagName: 'latest'
+      namespace: 'firstandthird'
+      hook: 'http://1n3.co:8080'
+    - type: 'tag'
+      name: '.*'
+      tagName: '${sourceref}'
+      namespace: 'firstandthird'
+

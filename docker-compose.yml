@@ -3,11 +3,12 @@ app:
   dockerfile: 'DockerfileDev'
   command: 'npm run dev'
   environment:
-    SECRET: 'secret'
+    SECRET:
     GITHUB_TOKEN:
     VIRTUAL_HOST:
     SLACK_HOOK:
-    RAPPTOR_CONFIG_URL:
+    CONFIG_URL:
+    CONFIG_PATH:
   volumes:
     - './:/home/app/src'
     - '/repos:/repos'
