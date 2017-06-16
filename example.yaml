@@ -4,7 +4,7 @@ repos:
       name: 'master'
       tagName: 'latest'
       namespace: 'firstandthird'
-      hook: 'http://1n3.co:8080'
+      hook: 'http://log.1n3.co'
     - type: 'tag'
       name: '.*'
       tagName: '${sourceref}'

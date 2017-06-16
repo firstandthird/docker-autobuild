@@ -1,7 +1,7 @@
 githubToken: '{{ENV.GITHUB_TOKEN}}'
 secret: '{{ENV.SECRET}}'
 slackHook: '{{ENV.SLACK_HOOK}}'
-configPath: '{{ENV.CONFIG_PATH || "default.yaml"}}'
+configPath: '{{ENV.CONFIG_PATH}}'
 configUrl: '{{ENV.CONFIG_URL}}'
 plugins:
   hapi-logr:
