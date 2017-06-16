@@ -34,6 +34,7 @@ exports.github = {
         if (!payload.tag && !payload.branch) {
           payload.branch = 'master';
         }
+        payload.tag = payload.tag || '';
         server.log(['manual', 'debug'], payload);
 
         done(null, payload);

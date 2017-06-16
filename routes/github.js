@@ -35,7 +35,9 @@ exports.github = {
           event,
           type: payload.ref_type ? payload.ref_type : null,
           user: payload.repository ? payload.repository.owner.login : null,
-          repo: payload.repository ? payload.repository.name : null
+          repo: payload.repository ? payload.repository.name : null,
+          tag: '',
+          branch: ''
         };
 
         if (payload.ref) {
