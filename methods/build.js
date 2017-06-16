@@ -25,10 +25,7 @@ module.exports = function(config, settings, data, done) {
         server.log(['builder', 'error', item.image], err);
       } else {
         const duration = (new Date().getTime() - start) / 1000;
-        server.log(['builder', 'success', item.image], {
-          message: `${item.image} built successfully in ${duration}s`,
-          duration
-        });
+        server.log(['builder', 'success', item.image], `${item.image} built successfully in ${duration}s`);
         if (item.hook) {
           hooks.push(item);
         }
