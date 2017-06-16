@@ -14,6 +14,7 @@
   "dependencies": {
     "async": "^2.4.1",
     "boom": "^5.1.0",
+    "confi": "^6.1.1",
     "hapi-auto-handler": "^1.4.1",
     "joi": "^10.5.2",
     "logr-slack": "^1.1.0",
