@@ -4,7 +4,13 @@ repos:
       name: 'master'
       tagName: 'latest'
       namespace: 'firstandthird'
-      hook: 'http://log.1n3.co'
+      hook: 
+        url: 'http://log.1n3.co'
+        payload:
+          branch: '{{branch}}'
+          repo: '{{repo}}'
+          test: 123
+
     - type: 'branch'
       name: '.*'
       tagName: 'branch-{{branch}}'
