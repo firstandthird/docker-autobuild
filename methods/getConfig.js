@@ -7,15 +7,16 @@ module.exports = function(settings, repoInfo, done) {
     return done(null, matchedConfig);
   }
 
-  if (settings.configUrl) {
-    settings.configUrl = settings.configUrl
+  let configUrl = settings.configUrl;
+  if (configUrl) {
+    configUrl = configUrl
       .replace('{user}', repoInfo.user)
       .replace('{repo}', repoInfo.repo);
   }
 
   confi({
     configFile: settings.configPath,
-    url: settings.configUrl,
+    url: configUrl,
     context: repoInfo
   }, (err, buildConfig) => {
     if (err) {
