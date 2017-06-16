@@ -7,7 +7,7 @@ module.exports = function(config, settings, data, done) {
     server.log(['github', 'debug'], { message: 'no matches, skipping', data });
   }
   async.eachSeries(config, (item, next) => {
-    server.log(['builder', 'notice', item.image], `Building ${item.image}`);
+    server.log(['builder', 'notice', item.image], `Building: ${item.image}`);
     const start = new Date().getTime();
     runshell('/home/app/builder', {
       log: true,
@@ -25,7 +25,7 @@ module.exports = function(config, settings, data, done) {
         server.log(['builder', 'error', item.image], err);
       } else {
         const duration = (new Date().getTime() - start) / 1000;
-        server.log(['builder', 'success', item.image], `${item.image} built successfully in ${duration}s`);
+        server.log(['builder', 'success', item.image], `Success: ${item.image} built in ${duration}s`);
         if (item.hook) {
           hooks.push(item);
         }
