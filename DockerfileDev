@@ -1,7 +1,9 @@
 FROM firstandthird/node:6.10-3-nobuild
 
 USER root
-RUN apk add --update docker curl bash
+RUN apk add --update docker curl bash py-pip
+
+RUN pip install docker-compose
 
 RUN curl https://raw.githubusercontent.com/firstandthird/docker-builder/2.1.0/builder > /home/app/builder
 RUN chmod +x /home/app/builder
