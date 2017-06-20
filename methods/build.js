@@ -18,7 +18,7 @@ module.exports = function(config, settings, data, done) {
         BRANCH: data.branch || data.tag,
         TOKEN: settings.githubToken,
         IMAGE_NAME: item.image,
-        DOCKERFILE: item.config.dockerfile,
+        DOCKERFILE: item.config.dockerfile || 'Dockerfile',
         CONTEXT: item.config.context,
         DEBUG: 1
       }
