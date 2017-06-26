@@ -2,7 +2,6 @@ const async = require('async');
 const runshell = require('runshell');
 module.exports = function(config, settings, data, done) {
   const server = this;
-  const hooks = [];
   if (config.length === 0) {
     server.log(['github', 'debug'], { message: 'no matches, skipping', data });
   }
@@ -29,7 +28,7 @@ module.exports = function(config, settings, data, done) {
         const duration = (new Date().getTime() - start) / 1000;
         server.log(['builder', 'success', item.image], `Success: ${item.image} built in ${duration}s`);
         if (item.hook) {
-          hooks.push(item);
+          return server.methods.processHooks(item, next);
         }
       }
       next();
@@ -38,6 +37,6 @@ module.exports = function(config, settings, data, done) {
     if (err) {
       return done(err);
     }
-    done(null, hooks);
+    done();
   });
 };

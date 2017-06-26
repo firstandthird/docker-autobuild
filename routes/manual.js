@@ -48,9 +48,6 @@ exports.github = {
       },
       build(server, settings, config, data, done) {
         server.methods.build(config, settings, data, done);
-      },
-      hooks(server, build, done) {
-        server.methods.processHooks(build, done);
       }
     }
   }
