@@ -36,6 +36,7 @@ exports.github = {
           type: payload.ref_type ? payload.ref_type : null,
           user: payload.repository ? payload.repository.owner.login : null,
           repo: payload.repository ? payload.repository.name : null,
+          before: payload.before ? payload.before : null,
           tag: '',
           branch: ''
         };
