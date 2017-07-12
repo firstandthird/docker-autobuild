@@ -22,13 +22,14 @@ module.exports = function(config, settings, data, done) {
         CONTEXT: item.config.context || '.',
         DEBUG: 1
       }
-    }, (err) => {
+    }, (err, output) => {
       if (err) {
         server.log(['builder', 'error', item.image], err);
       } else {
         const duration = (new Date().getTime() - start) / 1000;
         server.log(['builder', 'success', item.image], `Success: ${item.image} built in ${duration}s`);
-        if (item.hook) {
+        const noDiff = ( output.search("No difference in context") !== -1 );
+        if (item.hook && !noDiff) {
           return server.methods.processHooks(item, next);
         }
       }
