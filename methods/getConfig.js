@@ -38,8 +38,11 @@ module.exports = function(settings, repoInfo, done) {
       if (!tagName) {
         return;
       }
+
+      const repoName = config.repoName || repoInfo.repo;
+
       matchedConfig.push({
-        image: `${namespace}/${repoInfo.repo}:${tagName}`,
+        image: `${namespace}/${repoName}:${tagName}`,
         hook: config.hook,
         repoInfo,
         config
