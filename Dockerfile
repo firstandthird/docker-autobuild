@@ -5,7 +5,7 @@ RUN apk add --update docker curl bash py-pip
 
 RUN pip install docker-compose
 
-RUN curl https://raw.githubusercontent.com/firstandthird/docker-builder/2.3.0/builder > /home/app/builder
+RUN curl https://raw.githubusercontent.com/firstandthird/docker-builder/2.4.0/builder > /home/app/builder
 RUN chmod +x /home/app/builder
 
 ENV PORT=8080

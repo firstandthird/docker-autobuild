@@ -18,6 +18,7 @@ module.exports = function(config, settings, data, done) {
         TOKEN: settings.githubToken,
         IMAGE_NAME: item.image,
         DOCKERFILE: item.config.dockerfile || 'Dockerfile',
+        BEFORE: data.before || null,
         CONTEXT: item.config.context || '.',
         DEBUG: 1
       }
