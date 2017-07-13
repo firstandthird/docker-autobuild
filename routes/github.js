@@ -36,10 +36,14 @@ exports.github = {
           type: payload.ref_type ? payload.ref_type : null,
           user: payload.repository ? payload.repository.owner.login : null,
           repo: payload.repository ? payload.repository.name : null,
-          before: payload.before ? payload.before : null,
           tag: '',
           branch: ''
         };
+
+        const before = payload.before;
+        if (before && before.substr(0, 4) != '0000') {
+          data.before = before;
+        }
 
         if (payload.ref) {
           if (payload.ref.startsWith('refs/tags')) {
