@@ -43,7 +43,7 @@ module.exports = function(settings, repoInfo, done) {
 
       matchedConfig.push({
         image: `${namespace}/${repoName}:${tagName}`,
-        hook: config.hook,
+        hooks: config.hooks,
         repoInfo,
         config
       });

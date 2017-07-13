@@ -28,7 +28,7 @@ module.exports = function(config, settings, data, done) {
       } else {
         const duration = (new Date().getTime() - start) / 1000;
         server.log(['builder', 'success', item.image], `Success: ${item.image} built in ${duration}s`);
-        if (item.hook) {
+        if (item.hooks) {
           return server.methods.processHooks(item, next);
         }
       }
