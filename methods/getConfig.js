@@ -26,6 +26,7 @@ module.exports = function(settings, repoInfo, done) {
     if (!repoSettings) {
       return done(null, matchedConfig);
     }
+
     repoSettings.forEach((config) => {
       const namespace = config.namespace || repoInfo.user;
       let tagName;
