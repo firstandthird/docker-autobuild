@@ -40,10 +40,12 @@ module.exports = function(settings, repoInfo, done) {
       }
 
       const repoName = config.repoName || repoInfo.repo;
+      // For backwards compatability.
+      const hooks = (config.hooks) ? config.hooks : [config.hook];
 
       matchedConfig.push({
         image: `${namespace}/${repoName}:${tagName}`,
-        hooks: config.hooks,
+        hooks: hooks,
         repoInfo,
         config
       });
