@@ -1,7 +1,7 @@
 FROM firstandthird/node:6.10-3-nobuild
 
 USER root
-RUN apk add --update docker curl bash py-pip
+RUN apk add --update docker curl bash py-pip curl-dev
 
 RUN pip install docker-compose
 
