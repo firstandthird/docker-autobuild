@@ -8,6 +8,9 @@ module.exports = function(item, done) {
   }
 
   async.each(item.hooks, (hook, cb) => {
+    if (!hook || !hook.url) {
+      return cb();
+    }
     if (!hook.payload) {
       hook.payload = {};
     }
