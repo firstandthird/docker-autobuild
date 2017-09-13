@@ -6,7 +6,15 @@ module.exports = function(config, settings, data, done) {
     server.log(['github', 'debug'], { message: 'no matches, skipping', data });
   }
   async.eachSeries(config, (item, next) => {
-    server.log(['builder', 'notice', item.image], `Building: ${item.image}`);
+    server.log(['builder', 'notice', item.image], {
+      message: `Building: ${item.image}`,
+      user: data.user,
+      repo: data.repo,
+      branch: data.branch || data.tag,
+      dockerfile: item.config.dockerfile || 'Dockerfile',
+      context: item.config.context || '.',
+      before: data.before
+    });
     const start = new Date().getTime();
     runshell('/home/app/builder', {
       log: true,
