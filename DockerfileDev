@@ -1,4 +1,4 @@
-FROM firstandthird/node:6.10-3-nobuild
+FROM firstandthird/node:8.2.1-onbuild
 
 USER root
 RUN apk add --update docker curl bash py-pip curl-dev
