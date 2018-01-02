@@ -7,6 +7,7 @@ app:
     GITHUB_TOKEN:
     VIRTUAL_HOST: builder.*
     SLACK_HOOK:
+    SLACK_USERNAME:
     CONFIG_URL:
     CONFIG_PATH:
   volumes:
