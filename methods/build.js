@@ -37,9 +37,16 @@ module.exports = function(config, settings, data, done) {
         const duration = (new Date().getTime() - start) / 1000;
 
         const noDiff = (output.search('No difference in context') !== -1);
-
         if (!noDiff) {
-          server.log(['builder', 'success', item.image], `Success: ${item.image} built in ${duration}s`);
+          server.log(['builder', 'success', item.image], {
+            message: `Success: ${item.image} built in ${duration}s`,
+            user: data.user,
+            repo: data.repo,
+            branch: data.branch || data.tag,
+            dockerfile: item.config.dockerfile || 'Dockerfile',
+            context: item.config.context || '.',
+            before: data.before
+          });
         }
         if (item.hooks && !noDiff) {
           return server.methods.processHooks(item, next);

@@ -12,11 +12,11 @@ plugins:
         options:
           hideTags: true
           filter:
-            - 'builder'
+            - 'success'
             - 'warning'
             - 'error'
           slackHook: '{{slackHook}}'
-          username: 'AutoBuild'
+          username: '{{ ENV.SLACK_USERNAME || "AutoBuild" }}'
           icon_emoji: ':wrench:'
   hapi-auto-handler:
     _priority: -4
