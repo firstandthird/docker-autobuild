@@ -16,7 +16,7 @@ plugins:
             - 'warning'
             - 'error'
           slackHook: '{{slackHook}}'
-          username: '{{ ENV.SLACK_USERNAME }}'
+          username: '{{ ENV.SLACK_USERNAME || "AutoBuild" }}'
           icon_emoji: ':wrench:'
   hapi-auto-handler:
     _priority: -4
