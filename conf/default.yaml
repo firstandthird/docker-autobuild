@@ -3,6 +3,7 @@ secret: '{{ENV.SECRET}}'
 slackHook: '{{ENV.SLACK_HOOK}}'
 configPath: '{{ENV.CONFIG_PATH}}'
 configUrl: '{{ENV.CONFIG_URL}}'
+buildNodeEnv: '{{ ENV.BUILD_NODE_ENV || "production" }}'
 plugins:
   hapi-logr:
     reporters:

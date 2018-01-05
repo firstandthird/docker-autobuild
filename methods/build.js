@@ -28,6 +28,7 @@ module.exports = function(config, settings, data, done) {
         DOCKERFILE: item.config.dockerfile || 'Dockerfile',
         BEFORE: data.before || '',
         CONTEXT: item.config.context || '.',
+        NODE_ENV: settings.buildNodeEnv,
         DEBUG: 1
       }
     }, (err, output) => {
