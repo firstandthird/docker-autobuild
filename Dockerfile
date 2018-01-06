@@ -12,6 +12,7 @@ ENV PORT=8080
 ENV SECRET=""
 ENV GITHUB_TOKEN=""
 ENV REPOS=/repos
+ENV NODE_ENV production
 
 VOLUME /repos
 
