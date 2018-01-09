@@ -25,7 +25,7 @@ module.exports = function(item, done) {
       if (err) {
         server.log(['hook', 'error', hook.url, item.image], err);
       } else {
-        server.log(['hook', 'notice'], {
+        server.log(['hook'], {
           message: `Sent webhook: ${hook.url}`,
           payload: hook.payload
         });
