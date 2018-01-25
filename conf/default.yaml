@@ -13,7 +13,6 @@ plugins:
           hideTags: true
           filter:
             - 'success'
-            - 'warning'
             - 'error'
           slackHook: '{{slackHook}}'
           username: '{{ ENV.SLACK_USERNAME || "AutoBuild" }}'
