@@ -18,7 +18,7 @@ module.exports = function(config, settings, data, done) {
       branch: data.branch || data.tag,
       dockerfile: item.config.dockerfile || 'Dockerfile',
       context: item.config.context || '.',
-      before: before
+      before
     });
     const start = new Date().getTime();
     runshell('/home/app/builder', {
@@ -50,7 +50,7 @@ module.exports = function(config, settings, data, done) {
             branch: data.branch || data.tag,
             dockerfile: item.config.dockerfile || 'Dockerfile',
             context: item.config.context || '.',
-            before: before
+            before
           });
         }
         if (item.hooks && !noDiff) {
