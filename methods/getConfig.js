@@ -36,6 +36,14 @@ module.exports = function(settings, repoInfo, done) {
       if (config.type === 'tag' && repoInfo.tag && repoInfo.tag.match(config.name)) {
         tagName = config.tagName || repoInfo.tag;
       }
+      if (config.skip) {
+        if (config.type === 'branch' && repoInfo.branch === config.skip) {
+          return;
+        }
+        if (config.type === 'tag' && repoInfo.tag === config.skip) {
+          return;
+        }
+      }
       if (!tagName) {
         return;
       }
