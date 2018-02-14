@@ -5,7 +5,12 @@ module.exports = function(config, settings, data, done) {
   if (config.length === 0) {
     server.log(['github', 'debug'], { message: 'no matches, skipping', data });
   }
+
   async.eachSeries(config, (item, next) => {
+    let before = data.before;
+    if (item.config.alwaysBuild) {
+      before = null;
+    }
     server.log(['builder', 'notice', item.image], {
       message: `Building: ${item.image}`,
       user: data.user,
@@ -13,7 +18,7 @@ module.exports = function(config, settings, data, done) {
       branch: data.branch || data.tag,
       dockerfile: item.config.dockerfile || 'Dockerfile',
       context: item.config.context || '.',
-      before: data.before
+      before: before
     });
     const start = new Date().getTime();
     runshell('/home/app/builder', {
@@ -26,7 +31,7 @@ module.exports = function(config, settings, data, done) {
         TOKEN: settings.githubToken,
         IMAGE_NAME: item.image,
         DOCKERFILE: item.config.dockerfile || 'Dockerfile',
-        BEFORE: data.before || '',
+        BEFORE: before || '',
         CONTEXT: item.config.context || '.',
         DEBUG: 1
       }
@@ -45,7 +50,7 @@ module.exports = function(config, settings, data, done) {
             branch: data.branch || data.tag,
             dockerfile: item.config.dockerfile || 'Dockerfile',
             context: item.config.context || '.',
-            before: data.before
+            before: before
           });
         }
         if (item.hooks && !noDiff) {
