@@ -17,38 +17,25 @@ exports.github = {
       }
     }
   },
-  handler: {
-    autoInject: {
-      secret(settings, done) {
-        done(null, settings.secret);
-      },
-      validate(settings, server, request, done) {
-        if (request.payload.secret !== settings.secret) {
-          server.log(['manual', 'secret'], 'Secret didnt match');
-          return done(Boom.unauthorized('Permission Denied'));
-        }
-        done();
-      },
-      data(server, request, done) {
-        const payload = request.payload;
-        if (!payload.tag && !payload.branch) {
-          payload.branch = 'master';
-        }
-        payload.tag = payload.tag || '';
-        server.log(['manual', 'debug'], payload);
+  async handler(request, h) {
+    const server = request.server;
+    const settings = server.settings.app;
+    const secret = settings.secret;
+    const payload = request.payload;
 
-        done(null, payload);
-      },
-      send(reply, validate, done) {
-        reply(null, 'ok');
-        done();
-      },
-      config(send, server, settings, data, done) {
-        server.methods.getConfig(settings, data, done);
-      },
-      build(server, settings, config, data, done) {
-        server.methods.build(config, settings, data, done);
-      }
+    if (payload.secret !== secret) {
+      server.log(['manual', 'secret'], 'Secret didnt match');
+      return Boom.unauthorized('Permission Denied');
     }
+    payload.branch = payload.branch || '';
+    if (!payload.tag && !payload.branch) {
+      payload.branch = 'master';
+    }
+    payload.tag = payload.tag || '';
+    server.log(['manual', 'debug'], payload);
+    const config = await server.methods.getConfig(settings, payload);
+    await server.methods.build(config, settings, payload);
+
+    return { success: true };
   }
 };

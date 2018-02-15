@@ -1,0 +1,64 @@
+repos:
+  chrysler-building:
+    -
+      type: 'branch'
+      name: '.*'
+      tagName: '{{ branch }}'
+      namespace: 'james-george'
+    -
+      type: 'tag'
+      name: '.*'
+      tagName: '{{ tag }}'
+      namespace: 'george-james'
+  woolworth-building:
+    -
+      type: 'branch'
+      name: '.*'
+      tagName: '{{ branch }}'
+      namespace: 'gilbert-cass'
+      dockerfile: 'concrete/Dockerfile'
+      context: 'concrete'
+  thirty-rock:
+    -
+      type: 'branch'
+      name: 'master'
+      tagName: 'concrete_{{ branch }}'
+      dockerfile: 'concrete/Dockerfile'
+      context: 'concrete'
+    -
+      type: 'branch'
+      name: 'master'
+      tagName: 'steel_{{ branch }}'
+      dockerfile: 'steel/Dockerfile'
+      context: 'steel'
+  flatiron:
+    -
+      type: 'branch'
+      name: '.*'
+      tagName: 'concrete_{{ branch }}'
+      dockerfile: 'concrete/Dockerfile'
+      context: 'concrete'
+      hooks:
+        -
+          url: 'http://localhost:8080/hook-route'
+          payload:
+            branch: '{{ branch }}'
+            name: 'florence-gin'
+  the-dakota:
+    -
+      type: 'branch'
+      name: '.*'
+      tagName: 'doors_{{ branch }}'
+      dockerfile: 'doors/Dockerfile'
+      context: 'doors'
+      hooks:
+        -
+          url: 'http://localhost:8080/hook-route'
+          payload:
+            branch: 'wood_{{ branch }}'
+            name: 'frank-ocean'
+        -
+          url: 'http://localhost:8080/hook-route-two'
+          payload:
+            branch: 'french_{{ branch }}'
+            name: 'frank-ocean'

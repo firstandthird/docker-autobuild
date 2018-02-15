@@ -1,10 +1,10 @@
 const confi = require('confi');
 
-module.exports = function(settings, repoInfo, done) {
+module.exports = async function(settings, repoInfo) {
   const matchedConfig = [];
 
   if (repoInfo.event !== 'push') {
-    return done(null, matchedConfig);
+    return [];
   }
 
   let configUrl = settings.configUrl;
@@ -14,51 +14,47 @@ module.exports = function(settings, repoInfo, done) {
       .replace('{repo}', repoInfo.repo);
   }
 
-  confi({
+  const buildConfig = await confi({
     configFile: settings.configPath,
     url: configUrl,
     context: repoInfo
-  }, (err, buildConfig) => {
-    if (err) {
-      return done(err);
-    }
-    const repoSettings = buildConfig.repos[repoInfo.repo];
-    if (!repoSettings) {
-      return done(null, matchedConfig);
-    }
+  });
+  const repoSettings = buildConfig.repos[repoInfo.repo];
+  if (!repoSettings) {
+    return [];
+  }
 
-    repoSettings.forEach((config) => {
-      const namespace = config.namespace || repoInfo.user;
-      let tagName;
-      if (config.type === 'branch' && repoInfo.branch && repoInfo.branch.match(config.name)) {
-        tagName = config.tagName || repoInfo.branch;
-      }
-      if (config.type === 'tag' && repoInfo.tag && repoInfo.tag.match(config.name)) {
-        tagName = config.tagName || repoInfo.tag;
-      }
-      if (config.skip) {
-        if (config.type === 'branch' && repoInfo.branch === config.skip) {
-          return;
-        }
-        if (config.type === 'tag' && repoInfo.tag === config.skip) {
-          return;
-        }
-      }
-      if (!tagName) {
+  repoSettings.forEach((config) => {
+    const namespace = config.namespace || repoInfo.user;
+    let tagName;
+    if (config.type === 'branch' && repoInfo.branch && repoInfo.branch.match(config.name)) {
+      tagName = config.tagName || repoInfo.branch;
+    }
+    if (config.type === 'tag' && repoInfo.tag && repoInfo.tag.match(config.name)) {
+      tagName = config.tagName || repoInfo.tag;
+    }
+    if (config.skip) {
+      if (config.type === 'branch' && repoInfo.branch === config.skip) {
         return;
       }
+      if (config.type === 'tag' && repoInfo.tag === config.skip) {
+        return;
+      }
+    }
+    if (!tagName) {
+      return;
+    }
 
-      const repoName = config.repoName || repoInfo.repo;
-      // For backwards compatability.
-      const hooks = (config.hooks) ? config.hooks : [config.hook];
+    const repoName = config.repoName || repoInfo.repo;
+    // For backwards compatability.
+    const hooks = (config.hooks) ? config.hooks : [config.hook];
 
-      matchedConfig.push({
-        image: `${namespace}/${repoName}:${tagName}`,
-        hooks: hooks,
-        repoInfo,
-        config
-      });
+    matchedConfig.push({
+      image: `${namespace}/${repoName}:${tagName}`,
+      hooks,
+      repoInfo,
+      config
     });
-    done(null, matchedConfig);
   });
+  return matchedConfig;
 };

@@ -1,15 +1,14 @@
 const wreck = require('wreck');
-const async = require('async');
 
-module.exports = function(item, done) {
+module.exports = async function(item) {
   const server = this;
   if (typeof item.hook === 'string') {
     item.hooks = [{ url: item.hook }];
   }
 
-  async.each(item.hooks, (hook, cb) => {
+  const sendHook = async function(hook) {
     if (!hook || !hook.url) {
-      return cb();
+      return;
     }
     if (!hook.payload) {
       hook.payload = {};
@@ -19,18 +18,18 @@ module.exports = function(item, done) {
       message: `Sending webhook: ${hook.url}`,
       payload: hook.payload
     });
-    wreck.post(hook.url, {
+    await wreck.post(hook.url, {
       payload: JSON.stringify(hook.payload)
-    }, (err) => {
-      if (err) {
-        server.log(['hook', 'error', hook.url, item.image], err);
-      } else {
-        server.log(['hook'], {
-          message: `Sent webhook: ${hook.url}`,
-          payload: hook.payload
-        });
-      }
-      cb();
     });
-  }, done);
+    server.log(['hook'], {
+      message: `Sent webhook: ${hook.url}`,
+      payload: hook.payload
+    });
+  };
+
+  const promiseArr = item.hooks.map((hk) => sendHook(hk));
+
+  await Promise.all(promiseArr);
+
+  return true;
 };

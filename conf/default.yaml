@@ -4,6 +4,9 @@ slackHook: '{{ENV.SLACK_HOOK}}'
 configPath: '{{ENV.CONFIG_PATH}}'
 configUrl: '{{ENV.CONFIG_URL}}'
 plugins:
+  hapi-oppsy:
+    _enabled: false
+  hapi-favicon:
   hapi-logr:
     reporters:
       logr-slack:
@@ -17,5 +20,3 @@ plugins:
           slackHook: '{{slackHook}}'
           username: '{{ ENV.SLACK_USERNAME || "AutoBuild" }}'
           icon_emoji: ':wrench:'
-  hapi-auto-handler:
-    _priority: -4

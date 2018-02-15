@@ -10,7 +10,7 @@ exports.ui = {
       }
     }
   },
-  handler(request, reply) {
+  handler(request, h) {
     const secret = request.query.secret;
     const html = `
       <html>
@@ -33,6 +33,6 @@ exports.ui = {
         </form>
       </html>
     `;
-    reply(null, html);
+    return html;
   }
 };
