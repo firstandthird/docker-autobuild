@@ -23,21 +23,27 @@ module.exports = function (config, settings, data) {
     });
 
     const start = new Date().getTime();
-    const { results } = await runshell('/home/app/builder', {
-      log: true,
-      verbose: true,
-      env: {
-        USER: data.user,
-        REPO: data.repo,
-        BRANCH: data.branch || data.tag,
-        TOKEN: settings.githubToken,
-        IMAGE_NAME: item.image,
-        DOCKERFILE: item.config.dockerfile || 'Dockerfile',
-        BEFORE: before || '',
-        CONTEXT: item.config.context || '.',
-        DEBUG: 1
-      }
-    });
+    let results = '';
+    try {
+      const resultObj = await runshell('/home/app/builder', {
+        log: true,
+        verbose: true,
+        env: {
+          USER: data.user,
+          REPO: data.repo,
+          BRANCH: data.branch || data.tag,
+          TOKEN: settings.githubToken,
+          IMAGE_NAME: item.image,
+          DOCKERFILE: item.config.dockerfile || 'Dockerfile',
+          BEFORE: before || '',
+          CONTEXT: item.config.context || '.',
+          DEBUG: 1
+        }
+      });
+    } catch(e) {
+      server.log(['docker-autobuild', 'build', 'error'], { message: `Error: ${item.image} failed to build`, err: e });
+      return;
+    }
     const duration = (new Date().getTime() - start) / 1000;
     const noDiff = (results.search('No difference in context') !== -1);
     if (!noDiff) {
@@ -52,7 +58,12 @@ module.exports = function (config, settings, data) {
       });
     }
     if (item.hooks && !noDiff) {
-      await server.methods.processHooks(item);
+      try {
+        await server.methods.processHooks(item);
+      } catch (e) {
+        const err = (e.output) ? { message : `Error: ${item.image} hook error`, output: e.output } : { message: `Error: ${item.image} hook error`, err: e };
+        server.log(['docker-autobuild', 'hook', 'error'], err);
+      }
     }
   };
 
