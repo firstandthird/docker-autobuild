@@ -19,4 +19,4 @@ plugins:
             - 'error'
           slackHook: '{{slackHook}}'
           username: '{{ ENV.SLACK_USERNAME || "AutoBuild" }}'
-          icon_emoji: ':wrench:'
+          iconEmoji: ':wrench:'
