@@ -40,7 +40,8 @@ module.exports = function (config, settings, data) {
           DEBUG: 1
         }
       });
-    } catch(e) {
+      ({ results } = resultObj);
+    } catch (e) {
       server.log(['docker-autobuild', 'build', 'error'], { message: `Error: ${item.image} failed to build`, err: e });
       return;
     }
@@ -61,7 +62,7 @@ module.exports = function (config, settings, data) {
       try {
         await server.methods.processHooks(item);
       } catch (e) {
-        const err = (e.output) ? { message : `Error: ${item.image} hook error`, output: e.output } : { message: `Error: ${item.image} hook error`, err: e };
+        const err = (e.output) ? { message: `Error: ${item.image} hook error`, output: e.output } : { message: `Error: ${item.image} hook error`, err: e };
         server.log(['docker-autobuild', 'hook', 'error'], err);
       }
     }
