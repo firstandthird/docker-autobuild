@@ -40,6 +40,7 @@ module.exports = function (config, settings, data) {
           DEBUG: 1
         }
       });
+      ({ results } = resultObj);
     } catch(e) {
       server.log(['docker-autobuild', 'build', 'error'], { message: `Error: ${item.image} failed to build`, err: e });
       return;
