@@ -29,7 +29,7 @@ tap.test('configuration for branch settings', async (t) => {
     t.equal(data.length, 1);
     t.same(data[0].config, {
       type: 'branch',
-      name: '.*',
+      nameExp: '.*',
       tagName: 'new-work-branch',
       namespace: 'james-george'
     });
@@ -55,6 +55,63 @@ tap.test('configuration for branch settings', async (t) => {
   t.end();
 });
 
+tap.test('configuration for similar branch settings', async (t) => {
+  await start();
+
+  rapptor.server.methods.build = function(data, settings, obj) {
+    t.equal(data.length, 1);
+    t.same(data[0].config, {
+      type: 'branch',
+      nameExp: '.*',
+      tagName: 'something_master',
+      namespace: 'james-george'
+    });
+  };
+
+  const res = await rapptor.server.inject({
+    url: '/manual',
+    method: 'post',
+    payload: {
+      event: 'push',
+      secret: 'secret',
+      user: 'james',
+      repo: 'chrysler-building',
+      branch: 'something_master'
+    }
+  });
+
+  t.equal(res.statusCode, 200);
+
+  rapptor.server.methods.build = function(data, settings, obj) {
+    t.equal(data.length, 2);
+    t.same(data[0].config, {
+      type: 'branch',
+      name: 'master',
+      tagName: 'master',
+      namespace: 'jgwentworth'
+    });
+  };
+
+  const res2 = await rapptor.server.inject({
+    url: '/manual',
+    method: 'post',
+    payload: {
+      event: 'push',
+      secret: 'secret',
+      user: 'james',
+      repo: 'chrysler-building',
+      branch: 'master'
+    }
+  });
+
+  t.equal(res2.statusCode, 200);
+
+  await stop();
+
+  t.ok(true);
+  t.end();
+});
+
 tap.test('configuration for tag settings', async (t) => {
   await start();
 
@@ -62,7 +119,7 @@ tap.test('configuration for tag settings', async (t) => {
     t.equal(data.length, 1);
     t.same(data[0].config, {
       type: 'tag',
-      name: '.*',
+      nameExp: '.*',
       tagName: 'milestone-one',
       namespace: 'george-james'
     });
@@ -97,7 +154,7 @@ tap.test('context set as option', async (t) => {
       context: 'concrete',
       dockerfile: 'concrete/Dockerfile',
       type: 'branch',
-      name: '.*',
+      nameExp: '.*',
       tagName: 'floor-nine',
       namespace: 'gilbert-cass'
     });

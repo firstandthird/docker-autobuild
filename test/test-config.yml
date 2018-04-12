@@ -2,18 +2,23 @@ repos:
   chrysler-building:
     -
       type: 'branch'
-      name: '.*'
+      name: 'master'
+      tagName: '{{ branch }}'
+      namespace: 'jgwentworth'
+    -
+      type: 'branch'
+      nameExp: '.*'
       tagName: '{{ branch }}'
       namespace: 'james-george'
     -
       type: 'tag'
-      name: '.*'
+      nameExp: '.*'
       tagName: '{{ tag }}'
       namespace: 'george-james'
   woolworth-building:
     -
       type: 'branch'
-      name: '.*'
+      nameExp: '.*'
       tagName: '{{ branch }}'
       namespace: 'gilbert-cass'
       dockerfile: 'concrete/Dockerfile'
@@ -21,20 +26,20 @@ repos:
   thirty-rock:
     -
       type: 'branch'
-      name: 'master'
+      nameExp: 'master'
       tagName: 'concrete_{{ branch }}'
       dockerfile: 'concrete/Dockerfile'
       context: 'concrete'
     -
       type: 'branch'
-      name: 'master'
+      nameExp: 'master'
       tagName: 'steel_{{ branch }}'
       dockerfile: 'steel/Dockerfile'
       context: 'steel'
   flatiron:
     -
       type: 'branch'
-      name: '.*'
+      nameExp: '.*'
       tagName: 'concrete_{{ branch }}'
       dockerfile: 'concrete/Dockerfile'
       context: 'concrete'
@@ -47,7 +52,7 @@ repos:
   the-dakota:
     -
       type: 'branch'
-      name: '.*'
+      nameExp: '.*'
       tagName: 'doors_{{ branch }}'
       dockerfile: 'doors/Dockerfile'
       context: 'doors'
