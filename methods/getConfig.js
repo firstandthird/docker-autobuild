@@ -27,11 +27,15 @@ module.exports = async function(settings, repoInfo) {
   repoSettings.forEach((config) => {
     const namespace = config.namespace || repoInfo.user;
     let tagName;
-    if (config.type === 'branch' && repoInfo.branch && repoInfo.branch.match(config.name)) {
-      tagName = config.tagName || repoInfo.branch;
+    if (config.type === 'branch' && repoInfo.branch) {
+      if ((config.name && repoInfo.branch === config.name) || (config.nameExp && repoInfo.branch.match(config.nameExp))) {
+        tagName = config.tagName || repoInfo.branch;
+      }
     }
-    if (config.type === 'tag' && repoInfo.tag && repoInfo.tag.match(config.name)) {
-      tagName = config.tagName || repoInfo.tag;
+    if (config.type === 'tag' && repoInfo.tag) {
+      if ((config.name && repoInfo.tag === config.name) || (config.nameExp && repoInfo.tag.match(config.nameExp))) {
+        tagName = config.tagName || repoInfo.tag;
+      }
     }
     if (config.skip) {
       if (config.type === 'branch' && repoInfo.branch === config.skip) {
