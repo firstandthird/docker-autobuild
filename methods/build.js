@@ -19,6 +19,7 @@ module.exports = function (config, settings, data) {
       branch: data.branch || data.tag,
       dockerfile: item.config.dockerfile || 'Dockerfile',
       context: item.config.context || '.',
+      monorep: item.config.monorepo,
       before
     });
 
@@ -36,6 +37,7 @@ module.exports = function (config, settings, data) {
           IMAGE_NAME: item.image,
           DOCKERFILE: item.config.dockerfile || 'Dockerfile',
           BEFORE: before || '',
+          MONOREPO: item.config.monorepo,
           CONTEXT: item.config.context || '.',
           DEBUG: 1
         }

@@ -1,5 +1,6 @@
 'use strict';
 const Joi = require('joi');
+const Boom = require('boom');
 exports.ui = {
   path: '/ui',
   method: 'GET',
@@ -12,6 +13,9 @@ exports.ui = {
   },
   handler(request, h) {
     const secret = request.query.secret;
+    if (secret !== request.server.settings.app.secret) {
+      throw Boom.unauthorized('Secret not valid');
+    }
     const html = `
       <html>
         <form action="/manual" method="POST">
