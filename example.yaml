@@ -20,4 +20,12 @@ repos:
       name: '.*'
       tagName: 'release-{{tag}}'
       namespace: 'firstandthird'
-
+  test-monorepo:
+    - type: 'branch'
+      name: 'master'
+      monorepo: true
+      tagName: '{{branch}}'
+      namespace: 'firstandthird'
+      hook2:
+        url: 'http://1n3.co:8081'
+        payload: 'blah=123'

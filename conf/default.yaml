@@ -11,7 +11,7 @@ plugins:
     reporters:
       logr-slack:
         reporter: 'logr-slack'
-        enabled: '{{(slackHook)}}'
+        enabled: '{{(slackHook) ? true : false}}'
         options:
           hideTags: true
           filter:

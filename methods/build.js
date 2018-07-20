@@ -18,6 +18,7 @@ module.exports = function (config, settings, data) {
       repo: data.repo,
       branch: data.branch || data.tag,
       dockerfile: item.config.dockerfile || 'Dockerfile',
+      monorepo: item.config.monorepo,
       context: item.config.context || '.',
       before
     });
@@ -35,8 +36,11 @@ module.exports = function (config, settings, data) {
           TOKEN: settings.githubToken,
           IMAGE_NAME: item.image,
           DOCKERFILE: item.config.dockerfile || 'Dockerfile',
+          MONOREPO: item.config.monorepo,
           BEFORE: before || '',
           CONTEXT: item.config.context || '.',
+          WEBHOOK: item.config.hook2 ? item.config.hook2.url : '',
+          WEBHOOK_DATA: item.config.hook2 ? item.config.hook2.payload : '',
           DEBUG: 1
         }
       });
