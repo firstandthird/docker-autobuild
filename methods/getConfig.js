@@ -2,7 +2,6 @@ const confi = require('confi');
 
 module.exports = async function(settings, repoInfo) {
   const matchedConfig = [];
-
   if (repoInfo.event !== 'push') {
     return [];
   }
@@ -11,7 +10,9 @@ module.exports = async function(settings, repoInfo) {
     configFile: settings.configPath,
     context: repoInfo
   });
+
   const repoSettings = buildConfig.repos[repoInfo.repo];
+
   if (!repoSettings) {
     return [];
   }
@@ -42,12 +43,8 @@ module.exports = async function(settings, repoInfo) {
     }
 
     const repoName = config.repoName || repoInfo.repo;
-    // For backwards compatability.
-    const hooks = (config.hooks) ? config.hooks : [config.hook];
-
     matchedConfig.push({
       image: `${namespace}/${repoName}:${tagName}`,
-      hooks,
       repoInfo,
       config
     });

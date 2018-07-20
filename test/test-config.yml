@@ -8,6 +8,7 @@ repos:
     -
       type: 'branch'
       nameExp: '.*'
+      skip: 'master'
       tagName: '{{ branch }}'
       namespace: 'james-george'
     -
@@ -51,6 +52,7 @@ repos:
     -
       type: 'branch'
       nameExp: '.*'
+      skip: 'master'
       tagName: 'concrete_{{ branch }}'
       dockerfile: 'concrete/Dockerfile'
       context: 'concrete'
