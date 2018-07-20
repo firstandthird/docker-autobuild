@@ -1,8 +1,6 @@
 const runshell = require('runshell');
 
 module.exports = async function(envVars) {
-  const server = this;
-
   const start = new Date().getTime();
   let results = '';
   try {

@@ -1,11 +1,8 @@
 const Rapptor = require('rapptor');
 const tap = require('tap');
 const path = require('path');
-// const util = require('util');
 
 const workDir = path.resolve(__dirname, '../');
-
-// const wait = util.promisify(setTimeout);
 
 process.env.SECRET = 'secret';
 process.env.CONFIG_PATH = './test/test-config.yml';
