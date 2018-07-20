@@ -1,4 +1,4 @@
-const pAll = require('p-all');
+const pMap = require('p-map');
 
 module.exports = async function (config, settings, data) {
   const server = this;
@@ -59,13 +59,9 @@ module.exports = async function (config, settings, data) {
     }
   };
 
-  const builds = [];
-
-  for (const d of config) {
-    builds.push(() => buildService(d));
-  }
-
-  await pAll(builds, {});
+  await pMap(config, (d) => {
+    buildService(d);
+  }, {});
 
   return true;
 };
