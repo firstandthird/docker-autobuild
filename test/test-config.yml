@@ -46,6 +46,18 @@ repos:
       hook:
         urls: 'http://localhost:8080/hook-route'
         payload: 'something=new'
+  transamerica:
+    -
+      type: 'branch'
+      nameExp: '.*'
+      tagName: 'concrete_{{ branch }}'
+      dockerfile: 'concrete/Dockerfile'
+      context: 'concrete'
+      monorepo: true
+      hook:
+        urls: 'http://localhost:8080/hook-route'
+        payload: 'something=new'
+
   the-dakota:
     -
       type: 'branch'

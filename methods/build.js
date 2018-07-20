@@ -20,7 +20,7 @@ module.exports = async function (config, settings, data) {
       IMAGE_NAME: item.image,
       DOCKERFILE: item.config.dockerfile || 'Dockerfile',
       BEFORE: before || '',
-      MONOREPO: item.config.monorepo,
+      MONOREPO: item.config.monorepo || false,
       CONTEXT: item.config.context || '.',
       DEBUG: 1,
     };
