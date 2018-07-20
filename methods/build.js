@@ -1,4 +1,6 @@
 const pMap = require('p-map');
+const qs = require('qs');
+
 
 module.exports = async function (config, settings, data) {
   const server = this;
@@ -27,11 +29,12 @@ module.exports = async function (config, settings, data) {
 
     if (item.config.hook) {
       envVars.WEBHOOK = item.config.hook.urls;
-      envVars.WEBHOOK_DATA = item.config.hook.payload;
+      envVars.WEBHOOK_DATA = qs.stringify(item.config.hook.payload);
     }
 
     if (item.config.monorepo && item.config.hook) {
       envVars.WEBHOOK_MONOREPO = item.config.hook.urls;
+      envVars.WEBHOOK_DATA = qs.stringify(item.config.hook.payload);
       delete envVars.WEBHOOK;
     }
 
