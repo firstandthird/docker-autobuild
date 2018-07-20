@@ -1,5 +1,8 @@
 'use strict';
 const Joi = require('joi');
+const Boom = require('boom');
+const confi = require('confi');
+
 exports.ui = {
   path: '/ui',
   method: 'GET',
@@ -12,8 +15,14 @@ exports.ui = {
   },
   handler(request, h) {
     const secret = request.query.secret;
+    if (secret !== request.server.settings.app.secret) {
+      throw Boom.unauthorized('Unauthorized');
+    }
     const html = `
       <html>
+        <div>
+          <p><a href="/ui/config?secret=${secret}">Configs</a></p>
+        </div>
         <form action="/manual" method="POST">
           <input type="hidden" name="secret" value="${secret}"/>
           <label>Type</label>
@@ -34,5 +43,29 @@ exports.ui = {
       </html>
     `;
     return html;
+  }
+};
+
+exports.config = {
+  path: '/ui/config',
+  method: 'GET',
+  config: {
+    validate: {
+      query: {
+        secret: Joi.string().required()
+      }
+    }
+  },
+  async handler(request, h) {
+    const secret = request.query.secret;
+    if (secret !== request.server.settings.app.secret) {
+      throw Boom.unauthorized('Unauthorized');
+    }
+
+    const buildConfig = await confi({
+      configFile: request.server.settings.app.configPath
+    });
+
+    return buildConfig.repos;
   }
 };

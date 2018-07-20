@@ -7,16 +7,8 @@ module.exports = async function(settings, repoInfo) {
     return [];
   }
 
-  let configUrl = settings.configUrl;
-  if (configUrl) {
-    configUrl = configUrl
-      .replace('{user}', repoInfo.user)
-      .replace('{repo}', repoInfo.repo);
-  }
-
   const buildConfig = await confi({
     configFile: settings.configPath,
-    url: configUrl,
     context: repoInfo
   });
   const repoSettings = buildConfig.repos[repoInfo.repo];

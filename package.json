@@ -15,11 +15,12 @@
   },
   "dependencies": {
     "boom": "^5.1.0",
-    "confi": "^9.0.1",
+    "confi": "^9.2.3",
     "hapi-favicon": "^2.0.0",
     "joi": "^13.1.2",
     "logr-slack": "^1.2.0",
-    "rapptor": "^5.3.0",
+    "p-all": "^1.0.0",
+    "rapptor": "^5.13.0",
     "runshell": "^1.0.0",
     "tap": "^11.1.0",
     "wreck": "^14.0.2"

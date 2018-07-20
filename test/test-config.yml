@@ -43,12 +43,9 @@ repos:
       tagName: 'concrete_{{ branch }}'
       dockerfile: 'concrete/Dockerfile'
       context: 'concrete'
-      hooks:
-        -
-          url: 'http://localhost:8080/hook-route'
-          payload:
-            branch: '{{ branch }}'
-            name: 'florence-gin'
+      hook:
+        urls: 'http://localhost:8080/hook-route'
+        payload: 'something=new'
   the-dakota:
     -
       type: 'branch'
@@ -56,14 +53,6 @@ repos:
       tagName: 'doors_{{ branch }}'
       dockerfile: 'doors/Dockerfile'
       context: 'doors'
-      hooks:
-        -
-          url: 'http://localhost:8080/hook-route'
-          payload:
-            branch: 'wood_{{ branch }}'
-            name: 'frank-ocean'
-        -
-          url: 'http://localhost:8080/hook-route-two'
-          payload:
-            branch: 'french_{{ branch }}'
-            name: 'frank-ocean'
+      hook:
+        urls: 'http://localhost:8080/hook-route http://localhost:8080/hook-route-two'
+        payload: 'name=frank-ocean'
