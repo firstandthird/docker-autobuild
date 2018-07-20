@@ -61,7 +61,29 @@ repos:
         urls: 'http://localhost:8080/hook-route'
         payload:
           something: 'new'
-
+  ford-building:
+    -
+      type: 'branch'
+      name: 'master'
+      tagName: '{{ branch }}'
+      namespace: 'jgwentworth'
+    -
+      type: 'branch'
+      nameExp: '.*'
+      skip: 'master'
+      tagName: '{{ branch }}'
+      namespace: 'james-george'
+    -
+      type: 'tag'
+      nameExp: '.*'
+      skip: 'tag1'
+      tagName: '{{ tag }}'
+      namespace: 'george-james'
+    -
+      type: 'tag'
+      name: 'tag1'
+      tagName: '{{ tag }}'
+      namespace: 'outer-space'
   the-dakota:
     -
       type: 'branch'

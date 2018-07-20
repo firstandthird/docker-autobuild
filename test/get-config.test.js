@@ -85,3 +85,33 @@ tap.test('getConfig name Match', async (t) => {
   t.ok(true);
   t.end();
 });
+
+tap.test('getConfig tag Match nameExp', async (t) => {
+  await start();
+  const settings = rapptor.server.settings.app;
+  const pl = Object.assign(testPayload, {});
+  pl.repo = 'ford-building';
+  pl.branch = '';
+  pl.tag = 'tag1';
+  const result = await rapptor.server.methods.getConfig(settings, pl);
+  t.equal(result.length, 1);
+
+  await stop();
+  t.ok(true);
+  t.end();
+});
+
+tap.test('getConfig tag Match', async (t) => {
+  await start();
+  const settings = rapptor.server.settings.app;
+  const pl = Object.assign(testPayload, {});
+  pl.repo = 'ford-building';
+  pl.branch = '';
+  pl.tag = 'tag3';
+  const result = await rapptor.server.methods.getConfig(settings, pl);
+  t.equal(result.length, 1);
+
+  await stop();
+  t.ok(true);
+  t.end();
+});
