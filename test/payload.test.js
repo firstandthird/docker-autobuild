@@ -26,6 +26,7 @@ tap.test('configuration for branch settings', async (t) => {
     t.equal(data.length, 1);
     t.same(data[0].config, {
       type: 'branch',
+      skip: 'master',
       nameExp: '.*',
       tagName: 'new-work-branch',
       namespace: 'james-george'
@@ -61,7 +62,8 @@ tap.test('configuration for similar branch settings', async (t) => {
       type: 'branch',
       nameExp: '.*',
       tagName: 'something_master',
-      namespace: 'james-george'
+      namespace: 'james-george',
+      skip: 'master'
     });
   };
 
@@ -80,7 +82,7 @@ tap.test('configuration for similar branch settings', async (t) => {
   t.equal(res.statusCode, 200);
 
   rapptor.server.methods.build = function(data, settings, obj) {
-    t.equal(data.length, 2);
+    t.equal(data.length, 1);
     t.same(data[0].config, {
       type: 'branch',
       name: 'master',

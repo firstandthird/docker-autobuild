@@ -78,7 +78,6 @@ tap.test('getConfig name Match', async (t) => {
   const pl = Object.assign(testPayload, {});
   pl.repo = 'chrysler-building';
 
-  console.log(pl);
   const result = await rapptor.server.methods.getConfig(settings, pl);
   t.equal(result.length, 1);
 
