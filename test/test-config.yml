@@ -65,6 +65,7 @@ repos:
     -
       type: 'branch'
       name: 'master'
+      alwaysBuild: true
       tagName: '{{ branch }}'
       namespace: 'jgwentworth'
     -

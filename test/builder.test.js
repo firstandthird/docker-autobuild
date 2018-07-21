@@ -2,6 +2,7 @@ const Rapptor = require('rapptor');
 const tap = require('tap');
 const path = require('path');
 const util = require('util');
+const crypto = require('crypto');
 
 const workDir = path.resolve(__dirname, '../');
 
@@ -168,6 +169,46 @@ tap.test('builder configs for multiple matches', async (t) => {
 
   await stop();
   t.equals(count, 2);
+  t.ok(true);
+  t.end();
+});
+
+tap.test('builder alwaysBuild', async (t) => {
+  await start();
+
+  rapptor.server.methods.runBuilder = async function(envVars) {
+    t.equal(envVars.BEFORE, '');
+    await wait(10);
+    return { noDiff: false, duration: '7.0' };
+  };
+
+  const payload = {
+    ref_type: 'branch',
+    repository: {
+      owner: {
+        login: 'james'
+      },
+      name: 'ford-building'
+    },
+    ref: 'refs/heads/master',
+    before: '44487e69a71b82f42469f9bbbf2eab9ba43ba13e'
+  };
+
+  const sig = crypto.createHmac('sha1', 'secret').update(JSON.stringify(payload)).digest('hex');
+
+  const res = await rapptor.server.inject({
+    url: '/github',
+    method: 'post',
+    payload,
+    headers: {
+      'x-github-event': 'push',
+      'x-hub-signature': `sha1=${sig}`
+    }
+  });
+
+  t.equal(res.statusCode, 200);
+  await wait(10);
+  await stop();
   t.ok(true);
   t.end();
 });

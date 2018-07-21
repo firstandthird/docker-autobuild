@@ -10,6 +10,7 @@ module.exports = async function (config, settings, data) {
 
   const buildService = async function(item) {
     let before = data.before;
+
     if (item.config.alwaysBuild) {
       before = null;
     }
