@@ -27,13 +27,13 @@ repos:
   thirty-rock:
     -
       type: 'branch'
-      nameExp: 'master'
+      name: 'master'
       tagName: 'concrete_{{ branch }}'
       dockerfile: 'concrete/Dockerfile'
       context: 'concrete'
     -
       type: 'branch'
-      nameExp: 'master'
+      name: 'master'
       tagName: 'steel_{{ branch }}'
       dockerfile: 'steel/Dockerfile'
       context: 'steel'

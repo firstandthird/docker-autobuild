@@ -1,8 +1,11 @@
 const Rapptor = require('rapptor');
 const tap = require('tap');
 const path = require('path');
+const util = require('util');
 
 const workDir = path.resolve(__dirname, '../');
+
+const wait = util.promisify(setTimeout);
 
 process.env.SECRET = 'secret';
 process.env.CONFIG_PATH = './test/test-config.yml';
@@ -136,6 +139,35 @@ tap.test('builder configs for monorepo hook settings', async (t) => {
 
   await stop();
 
+  t.ok(true);
+  t.end();
+});
+
+tap.test('builder configs for multiple matches', async (t) => {
+  await start();
+  let count = 0;
+  rapptor.server.methods.runBuilder = async function(envVars) {
+    count = count + 1;
+    await wait(10);
+    return { noDiff: false, duration: '7.0' };
+  };
+
+  const res = await rapptor.server.inject({
+    url: '/manual',
+    method: 'post',
+    payload: {
+      event: 'push',
+      secret: 'secret',
+      user: 'james',
+      repo: 'thirty-rock',
+      branch: 'master'
+    }
+  });
+
+  t.equal(res.statusCode, 200);
+
+  await stop();
+  t.equals(count, 2);
   t.ok(true);
   t.end();
 });
