@@ -115,3 +115,18 @@ tap.test('getConfig tag Match', async (t) => {
   t.ok(true);
   t.end();
 });
+
+tap.test('getConfig tag Match', async (t) => {
+  await start();
+  const settings = rapptor.server.settings.app;
+  const pl = Object.assign(testPayload, {});
+  pl.repo = 'ford-building';
+  pl.branch = 'some-dev';
+  pl.tag = '';
+  const result = await rapptor.server.methods.getConfig(settings, pl);
+  t.equal(result.length, 1);
+  t.equal(result[0].config.repoName, 'fordandfriends');
+  await stop();
+  t.ok(true);
+  t.end();
+});

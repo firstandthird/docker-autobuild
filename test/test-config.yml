@@ -73,6 +73,7 @@ repos:
       skip: 'master'
       tagName: '{{ branch }}'
       namespace: 'james-george'
+      repoName: 'fordandfriends'
     -
       type: 'tag'
       nameExp: '.*'
