@@ -34,7 +34,6 @@ tap.test('getConfig', async (t) => {
   const result = await rapptor.server.methods.getConfig(settings, testPayload);
   t.equal(result.length, 1);
   const bldpl = result[0];
-  t.equal(bldpl.image, 'james/flatiron:concrete_master');
   t.equal(bldpl.config.type, 'branch');
 
   await stop();
