@@ -42,9 +42,7 @@ module.exports = async function(settings, repoInfo) {
       return;
     }
 
-    const repoName = config.repoName || repoInfo.repo;
     matchedConfig.push({
-      image: `${config.namespace}/${repoName}:${tagName}`,
       repoInfo,
       config
     });
