@@ -61,6 +61,19 @@ repos:
         urls: 'http://localhost:8080/hook-route'
         payload:
           something: 'new'
+  nyt-building:
+    -
+      type: 'branch'
+      nameExp: '.*'
+      skip: 'master'
+      tagName: 'concrete_{{ branch }}'
+      dockerfile: 'concrete/Dockerfile'
+      context: 'concrete'
+      monorepo: true
+      monorepoHook:
+        urls: 'http://localhost:8080/hook-route'
+        payload:
+          something: 'new'
   ford-building:
     -
       type: 'branch'

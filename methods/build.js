@@ -32,25 +32,25 @@ module.exports = function (config, settings, data) {
     }
 
     if (item.config.monorepo && item.config.monorepoHook) {
-      envVars.WEBHOOK_MONOREPO = item.config.monorepoHook;
-      envVars.WEBHOOK_DATA = qs.stringify(item.config.hook.payload);
+      envVars.WEBHOOK_MONOREPO = item.config.monorepoHook.urls;
+      envVars.WEBHOOK_DATA = qs.stringify(item.config.monorepoHook.payload);
     }
 
-    server.log(['builder', 'notice', `${envVars.USER}/${envVars.REPO}:${envVars.BRANCH}`], {
-      message: `Building: ${envVars.USER}/${envVars.REPO}:${envVars.BRANCH}`,
+    server.log(['builder', 'notice', `${envVars.USER}/${envVars.REPO} branch:${envVars.BRANCH}`], {
+      message: `Building: ${envVars.USER}/${envVars.REPO} branch:${envVars.BRANCH}`,
       envs: envVars
     });
     let results = {};
     try {
       results = await server.methods.runBuilder(envVars);
     } catch (e) {
-      server.log(['docker-autobuild', 'build', 'error'], { message: `Error: ${envVars.USER}/${envVars.REPO}:${envVars.BRANCH} failed to build`, err: e });
+      server.log(['docker-autobuild', 'build', 'error'], { message: `Error: ${envVars.USER}/${envVars.REPO} branch:${envVars.BRANCH} failed to build`, err: e, envVars });
       return;
     }
     if (!results.noDiff) {
       const branch = data.branch || data.tag;
-      server.log(['builder', 'success', `${envVars.USER}/${envVars.REPO}:${envVars.BRANCH}`], {
-        message: `Success: ${data.user}/${data.repo}:${branch} built in ${results.duration}s`,
+      server.log(['builder', 'success', `${envVars.USER}/${envVars.REPO} branch:${envVars.BRANCH}`], {
+        message: `Success: ${data.user}/${data.repo} branch:${branch} built in ${results.duration}s`,
         user: data.user,
         repo: data.repo,
         branch,

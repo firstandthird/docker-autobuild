@@ -144,6 +144,48 @@ tap.test('builder configs for monorepo hook settings', async (t) => {
   t.end();
 });
 
+tap.test('builder configs for monorepo hook settings', async (t) => {
+  await start();
+
+  rapptor.server.methods.runBuilder = function(envVars) {
+    t.same(envVars, {
+      USER: 'james',
+      REPO: 'nyt-building',
+      BRANCH: 'hooks-branch',
+      TOKEN: '',
+      DOCKERFILE: 'concrete/Dockerfile',
+      DOCKER_REGISTRY: 'james',
+      BEFORE: '',
+      MONOREPO: true,
+      CONTEXT: 'concrete',
+      DEBUG: 1,
+      WEBHOOK_MONOREPO: 'http://localhost:8080/hook-route',
+      WEBHOOK_DATA: 'something=new'
+    });
+    return { noDiff: false, duration: '7.0' };
+  };
+
+  const res = await rapptor.server.inject({
+    url: '/manual',
+    method: 'post',
+    payload: {
+      event: 'push',
+      secret: 'secret',
+      user: 'james',
+      repo: 'nyt-building',
+      branch: 'hooks-branch'
+    }
+  });
+
+  t.equal(res.statusCode, 200);
+  await wait(100);
+  await stop();
+
+  t.ok(true);
+  t.end();
+});
+
+
 tap.test('builder configs for multiple matches', async (t) => {
   await start();
   let count = 0;
