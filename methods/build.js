@@ -1,8 +1,7 @@
-const pMap = require('p-map');
 const qs = require('qs');
 
 
-module.exports = async function (config, settings, data) {
+module.exports = function (config, settings, data) {
   const server = this;
   if (config.length === 0) {
     server.log(['github', 'debug'], { message: 'no matches, skipping', data });
@@ -20,7 +19,6 @@ module.exports = async function (config, settings, data) {
       REPO: data.repo,
       BRANCH: data.branch || data.tag,
       TOKEN: settings.githubToken,
-      IMAGE_NAME: item.image,
       DOCKERFILE: item.config.dockerfile || 'Dockerfile',
       BEFORE: before || '',
       MONOREPO: item.config.monorepo || false,
@@ -33,7 +31,7 @@ module.exports = async function (config, settings, data) {
       envVars.WEBHOOK_DATA = qs.stringify(item.config.hook.payload);
     }
 
-    if (item.config.monorepo && item.config.hook) {
+    if (item.config.monorepo && item.config.monorepoHook) {
       envVars.WEBHOOK_MONOREPO = item.config.hook.urls;
       envVars.WEBHOOK_DATA = qs.stringify(item.config.hook.payload);
       delete envVars.WEBHOOK;
@@ -63,9 +61,12 @@ module.exports = async function (config, settings, data) {
     }
   };
 
-  await pMap(config, (d) => {
-    buildService(d);
-  }, {});
+  const buildServices = function(list) {
+    for (const d of list) {
+      buildService(d);
+    }
+  };
 
+  buildServices(config);
   return true;
 };

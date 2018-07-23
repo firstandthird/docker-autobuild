@@ -32,7 +32,6 @@ tap.test('builder configs for branch settings', async (t) => {
       REPO: 'chrysler-building',
       BRANCH: 'new-work-branch',
       TOKEN: '',
-      IMAGE_NAME: 'james-george/chrysler-building:new-work-branch',
       DOCKERFILE: 'Dockerfile',
       BEFORE: '',
       MONOREPO: false,
@@ -71,7 +70,6 @@ tap.test('builder configs for hook settings', async (t) => {
       REPO: 'flatiron',
       BRANCH: 'hooks-branch',
       TOKEN: '',
-      IMAGE_NAME: 'james/flatiron:concrete_hooks-branch',
       DOCKERFILE: 'concrete/Dockerfile',
       BEFORE: '',
       MONOREPO: false,
@@ -112,13 +110,12 @@ tap.test('builder configs for monorepo hook settings', async (t) => {
       REPO: 'transamerica',
       BRANCH: 'hooks-branch',
       TOKEN: '',
-      IMAGE_NAME: 'james/transamerica:concrete_hooks-branch',
       DOCKERFILE: 'concrete/Dockerfile',
       BEFORE: '',
       MONOREPO: true,
       CONTEXT: 'concrete',
       DEBUG: 1,
-      WEBHOOK_MONOREPO: 'http://localhost:8080/hook-route',
+      WEBHOOK: 'http://localhost:8080/hook-route',
       WEBHOOK_DATA: 'something=new'
     });
     return { noDiff: false, duration: '7.0' };
