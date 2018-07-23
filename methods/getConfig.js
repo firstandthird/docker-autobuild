@@ -18,7 +18,7 @@ module.exports = async function(settings, repoInfo) {
   }
 
   repoSettings.forEach((config) => {
-    const namespace = config.namespace || repoInfo.user;
+    config.namespace = config.namespace || repoInfo.user;
     let tagName;
     if (config.type === 'branch' && repoInfo.branch) {
       if ((config.name && repoInfo.branch === config.name) || (config.nameExp && repoInfo.branch.match(config.nameExp))) {
@@ -44,7 +44,7 @@ module.exports = async function(settings, repoInfo) {
 
     const repoName = config.repoName || repoInfo.repo;
     matchedConfig.push({
-      image: `${namespace}/${repoName}:${tagName}`,
+      image: `${config.namespace}/${repoName}:${tagName}`,
       repoInfo,
       config
     });
