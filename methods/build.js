@@ -63,7 +63,7 @@ module.exports = function (config, settings, data) {
 
   const buildServices = async function(list) {
     for (const d of list) {
-      await buildService(d); // eslint-disable-line
+      await buildService(d); // eslint-disable-line no-await-in-loop
     }
   };
 
