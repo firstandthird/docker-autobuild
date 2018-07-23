@@ -6,9 +6,8 @@ module.exports = function (config, settings, data) {
   if (config.length === 0) {
     server.log(['github', 'debug'], { message: 'no matches, skipping', data });
   }
-
   const buildService = async function(item) {
-    let before = data.before;
+    let before = data.before || null;
 
     if (item.config.alwaysBuild) {
       before = null;
@@ -17,6 +16,7 @@ module.exports = function (config, settings, data) {
     const envVars = {
       USER: data.user,
       REPO: data.repo,
+      DOCKER_REGISTRY: item.config.namespace,
       BRANCH: data.branch || data.tag,
       TOKEN: settings.githubToken,
       DOCKERFILE: item.config.dockerfile || 'Dockerfile',
@@ -32,28 +32,28 @@ module.exports = function (config, settings, data) {
     }
 
     if (item.config.monorepo && item.config.monorepoHook) {
-      envVars.WEBHOOK_MONOREPO = item.config.hook.urls;
+      envVars.WEBHOOK_MONOREPO = item.config.monorepoHook;
       envVars.WEBHOOK_DATA = qs.stringify(item.config.hook.payload);
-      delete envVars.WEBHOOK;
     }
 
-    server.log(['builder', 'notice', item.image], {
-      message: `Building: ${item.image}`,
+    server.log(['builder', 'notice', `${envVars.USER}/${envVars.REPO}:${envVars.BRANCH}`], {
+      message: `Building: ${envVars.USER}/${envVars.REPO}:${envVars.BRANCH}`,
       envs: envVars
     });
     let results = {};
     try {
       results = await server.methods.runBuilder(envVars);
     } catch (e) {
-      server.log(['docker-autobuild', 'build', 'error'], { message: `Error: ${envVars.IMAGE_NAME} failed to build`, err: e });
+      server.log(['docker-autobuild', 'build', 'error'], { message: `Error: ${envVars.USER}/${envVars.REPO}:${envVars.BRANCH} failed to build`, err: e });
       return;
     }
     if (!results.noDiff) {
-      server.log(['builder', 'success', item.image], {
-        message: `Success: ${item.image} built in ${results.duration}s`,
+      const branch = data.branch || data.tag;
+      server.log(['builder', 'success', `${envVars.USER}/${envVars.REPO}:${envVars.BRANCH}`], {
+        message: `Success: ${data.user}/${data.repo}:${branch} built in ${results.duration}s`,
         user: data.user,
         repo: data.repo,
-        branch: data.branch || data.tag,
+        branch,
         dockerfile: item.config.dockerfile || 'Dockerfile',
         context: item.config.context || '.',
         before
@@ -61,9 +61,9 @@ module.exports = function (config, settings, data) {
     }
   };
 
-  const buildServices = function(list) {
+  const buildServices = async function(list) {
     for (const d of list) {
-      buildService(d);
+      await buildService(d); // eslint-disable-line
     }
   };
 

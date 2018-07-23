@@ -33,6 +33,7 @@ tap.test('builder configs for branch settings', async (t) => {
       BRANCH: 'new-work-branch',
       TOKEN: '',
       DOCKERFILE: 'Dockerfile',
+      DOCKER_REGISTRY: 'james-george',
       BEFORE: '',
       MONOREPO: false,
       CONTEXT: '.',
@@ -71,6 +72,7 @@ tap.test('builder configs for hook settings', async (t) => {
       BRANCH: 'hooks-branch',
       TOKEN: '',
       DOCKERFILE: 'concrete/Dockerfile',
+      DOCKER_REGISTRY: 'james',
       BEFORE: '',
       MONOREPO: false,
       CONTEXT: 'concrete',
@@ -111,6 +113,7 @@ tap.test('builder configs for monorepo hook settings', async (t) => {
       BRANCH: 'hooks-branch',
       TOKEN: '',
       DOCKERFILE: 'concrete/Dockerfile',
+      DOCKER_REGISTRY: 'james',
       BEFORE: '',
       MONOREPO: true,
       CONTEXT: 'concrete',
@@ -163,7 +166,7 @@ tap.test('builder configs for multiple matches', async (t) => {
   });
 
   t.equal(res.statusCode, 200);
-
+  await wait(100);
   await stop();
   t.equals(count, 2);
   t.ok(true);
