@@ -8,6 +8,7 @@ repos:
     -
       type: 'branch'
       nameExp: '.*'
+      skip: 'master'
       tagName: '{{ branch }}'
       namespace: 'james-george'
     -
@@ -26,13 +27,13 @@ repos:
   thirty-rock:
     -
       type: 'branch'
-      nameExp: 'master'
+      name: 'master'
       tagName: 'concrete_{{ branch }}'
       dockerfile: 'concrete/Dockerfile'
       context: 'concrete'
     -
       type: 'branch'
-      nameExp: 'master'
+      name: 'master'
       tagName: 'steel_{{ branch }}'
       dockerfile: 'steel/Dockerfile'
       context: 'steel'
@@ -43,12 +44,61 @@ repos:
       tagName: 'concrete_{{ branch }}'
       dockerfile: 'concrete/Dockerfile'
       context: 'concrete'
-      hooks:
-        -
-          url: 'http://localhost:8080/hook-route'
-          payload:
-            branch: '{{ branch }}'
-            name: 'florence-gin'
+      hook:
+        urls: 'http://localhost:8080/hook-route'
+        payload:
+          something: 'new'
+  transamerica:
+    -
+      type: 'branch'
+      nameExp: '.*'
+      skip: 'master'
+      tagName: 'concrete_{{ branch }}'
+      dockerfile: 'concrete/Dockerfile'
+      context: 'concrete'
+      monorepo: true
+      hook:
+        urls: 'http://localhost:8080/hook-route'
+        payload:
+          something: 'new'
+  nyt-building:
+    -
+      type: 'branch'
+      nameExp: '.*'
+      skip: 'master'
+      tagName: 'concrete_{{ branch }}'
+      dockerfile: 'concrete/Dockerfile'
+      context: 'concrete'
+      monorepo: true
+      monorepoHook:
+        urls: 'http://localhost:8080/hook-route'
+        payload:
+          something: 'new'
+  ford-building:
+    -
+      type: 'branch'
+      name: 'master'
+      alwaysBuild: true
+      tagName: '{{ branch }}'
+      namespace: 'jgwentworth'
+    -
+      type: 'branch'
+      nameExp: '.*'
+      skip: 'master'
+      tagName: '{{ branch }}'
+      namespace: 'james-george'
+      repoName: 'fordandfriends'
+    -
+      type: 'tag'
+      nameExp: '.*'
+      skip: 'tag1'
+      tagName: '{{ tag }}'
+      namespace: 'george-james'
+    -
+      type: 'tag'
+      name: 'tag1'
+      tagName: '{{ tag }}'
+      namespace: 'outer-space'
   the-dakota:
     -
       type: 'branch'
@@ -56,14 +106,7 @@ repos:
       tagName: 'doors_{{ branch }}'
       dockerfile: 'doors/Dockerfile'
       context: 'doors'
-      hooks:
-        -
-          url: 'http://localhost:8080/hook-route'
-          payload:
-            branch: 'wood_{{ branch }}'
-            name: 'frank-ocean'
-        -
-          url: 'http://localhost:8080/hook-route-two'
-          payload:
-            branch: 'french_{{ branch }}'
-            name: 'frank-ocean'
+      hook:
+        urls: 'http://localhost:8080/hook-route http://localhost:8080/hook-route-two'
+        payload:
+          name: 'frank-ocean'

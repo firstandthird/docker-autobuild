@@ -2,30 +2,23 @@ const confi = require('confi');
 
 module.exports = async function(settings, repoInfo) {
   const matchedConfig = [];
-
   if (repoInfo.event !== 'push') {
     return [];
   }
 
-  let configUrl = settings.configUrl;
-  if (configUrl) {
-    configUrl = configUrl
-      .replace('{user}', repoInfo.user)
-      .replace('{repo}', repoInfo.repo);
-  }
-
   const buildConfig = await confi({
     configFile: settings.configPath,
-    url: configUrl,
     context: repoInfo
   });
+
   const repoSettings = buildConfig.repos[repoInfo.repo];
+
   if (!repoSettings) {
     return [];
   }
 
   repoSettings.forEach((config) => {
-    const namespace = config.namespace || repoInfo.user;
+    config.namespace = config.namespace || repoInfo.user;
     let tagName;
     if (config.type === 'branch' && repoInfo.branch) {
       if ((config.name && repoInfo.branch === config.name) || (config.nameExp && repoInfo.branch.match(config.nameExp))) {
@@ -49,13 +42,7 @@ module.exports = async function(settings, repoInfo) {
       return;
     }
 
-    const repoName = config.repoName || repoInfo.repo;
-    // For backwards compatability.
-    const hooks = (config.hooks) ? config.hooks : [config.hook];
-
     matchedConfig.push({
-      image: `${namespace}/${repoName}:${tagName}`,
-      hooks,
       repoInfo,
       config
     });
