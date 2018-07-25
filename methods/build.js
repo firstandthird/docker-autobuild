@@ -40,7 +40,7 @@ module.exports = function (config, settings, data) {
       envVars.WEBHOOK_DATA = qs.stringify(item.config.monorepoHook.payload);
     }
 
-    server.log(['builder', 'notice', `${envVars.USER}/${envVars.REPO} branch:${envVars.BRANCH}`], {
+    server.log(['builder', 'notice', envVars.USER, envVars.REPO, envVars.BRANCH], {
       message: `Building: ${envVars.USER}/${envVars.REPO} branch:${envVars.BRANCH}`,
       envs: envVars
     });
@@ -53,7 +53,7 @@ module.exports = function (config, settings, data) {
     }
     if (!results.noDiff) {
       const branch = data.branch || data.tag;
-      server.log(['builder', 'success', `${envVars.USER}/${envVars.REPO} branch:${envVars.BRANCH}`], {
+      server.log(['builder', 'success', envVars.USER, envVars.REPO, envVars.BRANCH], {
         message: `Success: ${data.user}/${data.repo} branch:${branch} built in ${results.duration}s`,
         user: data.user,
         repo: data.repo,
