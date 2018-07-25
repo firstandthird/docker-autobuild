@@ -26,6 +26,10 @@ module.exports = function (config, settings, data) {
       DEBUG: 1,
     };
 
+    if (item.config.tagPrefix) {
+      envVars.TAG_PREFIX = item.config.tagPrefix;
+    }
+
     if (item.config.hook) {
       envVars.WEBHOOK = item.config.hook.urls;
       envVars.WEBHOOK_DATA = qs.stringify(item.config.hook.payload);
