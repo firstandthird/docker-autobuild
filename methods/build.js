@@ -32,7 +32,7 @@ module.exports = function (config, settings, data) {
 
     if (item.config.hook) {
       envVars.WEBHOOK = item.config.hook.urls;
-      envVars.WEBHOOK_DATA = qs.stringify(item.config.hook.payload);
+      envVars.WEBHOOK_DATA = qs.stringify(item.config.hook.payload, { encode: false });
     }
 
     if (item.config.monorepo && item.config.monorepoHook) {
