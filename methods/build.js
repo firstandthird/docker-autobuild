@@ -38,7 +38,7 @@ module.exports = function (config, settings, data) {
     if (item.config.monorepo && item.config.monorepoHook) {
       envVars.WEBHOOK_MONOREPO = item.config.monorepoHook.urls;
       envVars.WEBHOOK_DATA = qs.stringify(item.config.monorepoHook.payload);
-      if (item.config.runDockerBuilder) {
+      if (settings.runDockerBuilder) {
         envVars.APP_BUILDER = '/home/app/docker-builder-linux';
       }
     }
