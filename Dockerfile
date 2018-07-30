@@ -8,6 +8,8 @@ RUN pip install docker-compose
 RUN curl https://raw.githubusercontent.com/firstandthird/docker-builder/3.7.0/builder > /home/app/builder
 RUN chmod +x /home/app/builder
 
+RUN ./bin/install-docker-app
+
 ENV PORT=8080
 ENV SECRET=""
 ENV GITHUB_TOKEN=""
