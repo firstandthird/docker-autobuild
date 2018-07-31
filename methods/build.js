@@ -22,6 +22,7 @@ module.exports = function (config, settings, data) {
       DOCKERFILE: item.config.dockerfile || 'Dockerfile',
       BEFORE: before || '',
       MONOREPO: item.config.monorepo || false,
+      APP_BUILDER: '/home/app/docker-builder-linux',
       CONTEXT: item.config.context || '.',
       DEBUG: 1,
     };
@@ -38,9 +39,6 @@ module.exports = function (config, settings, data) {
     if (item.config.monorepo && item.config.monorepoHook) {
       envVars.WEBHOOK_MONOREPO = item.config.monorepoHook.urls;
       envVars.WEBHOOK_DATA = qs.stringify(item.config.monorepoHook.payload);
-      if (settings.runDockerBuilder) {
-        envVars.APP_BUILDER = '/home/app/docker-builder-linux';
-      }
     }
 
     server.log(['builder', 'notice', envVars.USER, envVars.REPO, envVars.BRANCH], {
