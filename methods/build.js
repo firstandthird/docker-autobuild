@@ -22,7 +22,7 @@ module.exports = function (config, settings, data) {
       DOCKERFILE: item.config.dockerfile || 'Dockerfile',
       BEFORE: before || '',
       MONOREPO: item.config.monorepo || false,
-      APP_BUILDER: '/home/app/docker-builder-linux',
+      APP_BUILDER: '/home/app/docker-app-linux',
       CONTEXT: item.config.context || '.',
       DEBUG: 1,
     };
