@@ -29,6 +29,7 @@ tap.test('builder configs for branch settings', async (t) => {
   rapptor.server.methods.runBuilder = function(envVars) {
     t.same(envVars, {
       USER: 'james',
+      APP_BUILDER: '/home/app/docker-app-linux',
       REPO: 'chrysler-building',
       BRANCH: 'new-work-branch',
       TOKEN: '',
@@ -75,6 +76,7 @@ tap.test('builder configs for hook settings', async (t) => {
       DOCKER_REGISTRY: 'james',
       BEFORE: '',
       MONOREPO: false,
+      APP_BUILDER: '/home/app/docker-app-linux',
       CONTEXT: 'concrete',
       DEBUG: 1,
       WEBHOOK: 'http://localhost:8080/hook-route',
@@ -116,6 +118,7 @@ tap.test('builder configs for monorepo hook settings', async (t) => {
       DOCKER_REGISTRY: 'james',
       BEFORE: '',
       MONOREPO: true,
+      APP_BUILDER: '/home/app/docker-app-linux',
       CONTEXT: 'concrete',
       DEBUG: 1,
       WEBHOOK: 'http://localhost:8080/hook-route',
@@ -157,6 +160,7 @@ tap.test('builder configs for monorepo hook settings', async (t) => {
       DOCKER_REGISTRY: 'james',
       BEFORE: '',
       MONOREPO: true,
+      APP_BUILDER: '/home/app/docker-app-linux',
       CONTEXT: 'concrete',
       DEBUG: 1,
       WEBHOOK_MONOREPO: 'http://localhost:8080/hook-route',
