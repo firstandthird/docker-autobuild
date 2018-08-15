@@ -24,7 +24,7 @@ module.exports = function (config, settings, data) {
       MONOREPO: item.config.monorepo || false,
       APP_BUILDER: '/home/app/docker-app-linux',
       CONTEXT: item.config.context || '.',
-      DEBUG: 1,
+      DEBUG: 1
     };
 
     if (item.config.tagPrefix) {
@@ -41,6 +41,9 @@ module.exports = function (config, settings, data) {
       envVars.WEBHOOK_DATA = qs.stringify(item.config.monorepoHook.payload);
     }
 
+    if (item.config.appendCommit) {
+      envVars.COMMIT_SUFFIX = 'true';
+    }
     server.log(['builder', 'notice', envVars.USER, envVars.REPO, envVars.BRANCH], {
       message: `Building: ${envVars.USER}/${envVars.REPO} branch:${envVars.BRANCH}`,
       envs: envVars
