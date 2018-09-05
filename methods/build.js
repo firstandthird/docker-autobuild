@@ -27,6 +27,14 @@ module.exports = function (config, settings, data) {
       DEBUG: 1
     };
 
+    if (settings.builder.memLimit) {
+      envVars.MEM_LIMIT = settings.builder.memLimit;
+    }
+
+    if (settings.builder.cpuShares) {
+      envVars.CPU_SHARES = settings.builder.cpuShares;
+    }
+
     if (item.config.tagPrefix) {
       envVars.TAG_PREFIX = item.config.tagPrefix;
     }

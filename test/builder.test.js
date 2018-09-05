@@ -10,6 +10,8 @@ const wait = util.promisify(setTimeout);
 
 process.env.SECRET = 'secret';
 process.env.CONFIG_PATH = './test/test-config.yml';
+process.env.MEM_LIMIT = '70M';
+process.env.CPU_SHARES = '0.9';
 
 let rapptor;
 const start = async function(cb) {
@@ -38,7 +40,9 @@ tap.test('builder configs for branch settings', async (t) => {
       BEFORE: '',
       MONOREPO: false,
       CONTEXT: '.',
-      DEBUG: 1
+      DEBUG: 1,
+      MEM_LIMIT: '70M',
+      CPU_SHARES: '0.9'
     });
     return { noDiff: false, duration: '7.0' };
   };
@@ -80,7 +84,9 @@ tap.test('builder configs for hook settings', async (t) => {
       CONTEXT: 'concrete',
       DEBUG: 1,
       WEBHOOK: 'http://localhost:8080/hook-route',
-      WEBHOOK_DATA: 'something=new'
+      WEBHOOK_DATA: 'something=new',
+      MEM_LIMIT: '70M',
+      CPU_SHARES: '0.9'
     });
     return { noDiff: false, duration: '7.0' };
   };
@@ -122,7 +128,9 @@ tap.test('builder configs for monorepo hook settings', async (t) => {
       CONTEXT: 'concrete',
       DEBUG: 1,
       WEBHOOK: 'http://localhost:8080/hook-route',
-      WEBHOOK_DATA: 'something=new'
+      WEBHOOK_DATA: 'something=new',
+      MEM_LIMIT: '70M',
+      CPU_SHARES: '0.9'
     });
     return { noDiff: false, duration: '7.0' };
   };
@@ -164,7 +172,9 @@ tap.test('builder configs for monorepo hook settings', async (t) => {
       CONTEXT: 'concrete',
       DEBUG: 1,
       WEBHOOK_MONOREPO: 'http://localhost:8080/hook-route',
-      WEBHOOK_DATA: 'something=new'
+      WEBHOOK_DATA: 'something=new',
+      MEM_LIMIT: '70M',
+      CPU_SHARES: '0.9'
     });
     return { noDiff: false, duration: '7.0' };
   };

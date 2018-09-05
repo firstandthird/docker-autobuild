@@ -3,6 +3,9 @@ secret: '{{ENV.SECRET}}'
 slackHook: '{{ENV.SLACK_HOOK}}'
 configPath: '{{ENV.CONFIG_PATH}}'
 configUrl: '{{ENV.CONFIG_URL}}'
+builder:
+  memLimit: '{{ENV.MEM_LIMIT}}'
+  cpuShares: '{{ENV.CPU_SHARES}}'
 plugins:
   hapi-oppsy:
     _enabled: false
