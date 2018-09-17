@@ -46,6 +46,10 @@ exports.github = {
     server.log(['github', 'debug'], data);
 
     const config = await server.methods.getConfig(settings, data);
+    if (config.skipGithub) {
+      server.log(['github', 'hook'], { message: 'Skipping build', data });
+      return { success: 'true' };
+    }
     await server.methods.build(config, settings, data);
 
     return { success: 'true' };
