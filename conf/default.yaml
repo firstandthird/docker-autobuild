@@ -1,11 +1,10 @@
-githubToken: '{{ENV.GITHUB_TOKEN}}'
-secret: '{{ENV.SECRET}}'
-slackHook: '{{ENV.SLACK_HOOK}}'
-configPath: '{{ENV.CONFIG_PATH}}'
-configUrl: '{{ENV.CONFIG_URL}}'
+githubToken: '{{getEnv("GITHUB_TOKEN")}}'
+secret: '{{getEnv("SECRET")}}'
+slackHook: '{{getEnv("SLACK_HOOK", "")}}'
+configPath: '{{getEnv("CONFIG_PATH")}}'
 builder:
-  memLimit: '{{ENV.MEM_LIMIT}}'
-  cpuShares: '{{ENV.CPU_SHARES}}'
+  memLimit: '{{getEnv("MEM_LIMIT", "")}}'
+  cpuShares: '{{getEnv("CPU_SHARES", "")}}'
 plugins:
   hapi-oppsy:
     _enabled: false
@@ -14,12 +13,12 @@ plugins:
     reporters:
       logr-slack:
         reporter: 'logr-slack'
-        enabled: '{{(slackHook)}}'
         options:
+          enabled: '{{envExists("SLACK_HOOK")}}'
           hideTags: true
           filter:
             - 'success'
             - 'error'
           slackHook: '{{slackHook}}'
-          username: '{{ ENV.SLACK_USERNAME || "AutoBuild" }}'
+          username: '{{ getEnv("SLACK_USERNAME", "AutoBuild") }}'
           iconEmoji: ':wrench:'

@@ -14,11 +14,10 @@ app:
   environment:
     SECRET: "secret"
     GITHUB_TOKEN:
-    VIRTUAL_HOST: builder.*
     SLACK_HOOK:
     SLACK_USERNAME:
     CONFIG_URL:
-    CONFIG_PATH:
+    CONFIG_PATH: 'example.yaml'
   volumes:
     - './:/home/app/src'
     - '/repos:/repos'
