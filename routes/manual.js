@@ -13,7 +13,8 @@ exports.github = {
         repo: Joi.string().required(),
         branch: Joi.string().optional().allow(''),
         tag: Joi.string().optional().allow(''),
-        user: Joi.string().required()
+        user: Joi.string().required(),
+        context: Joi.string().optional().allow('')
       }
     }
   },

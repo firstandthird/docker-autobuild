@@ -12,6 +12,9 @@ module.exports = function (config, settings, data) {
     if (item.config.alwaysBuild) {
       before = null;
     }
+    if (data.context && data.context !== item.config.context) {
+      return;
+    }
 
     const envVars = {
       USER: data.user,

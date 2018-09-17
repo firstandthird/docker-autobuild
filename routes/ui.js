@@ -38,6 +38,8 @@ exports.ui = {
           <input type="text" name="branch" value=""/>
           <label>Tag</label>
           <input type="text" name="tag" value=""/>
+          <label>Context</label>
+          <input type="text" name="context" value=""/>
           <input type="submit" value="Build"/>
         </form>
       </html>
