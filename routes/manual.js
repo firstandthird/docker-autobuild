@@ -26,7 +26,7 @@ exports.github = {
 
     if (payload.secret !== secret) {
       server.log(['manual', 'secret'], 'Secret didnt match');
-      return Boom.unauthorized('Permission Denied');
+      throw Boom.unauthorized('Permission Denied');
     }
     payload.branch = payload.branch || '';
     if (!payload.tag && !payload.branch) {
