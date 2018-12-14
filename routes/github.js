@@ -16,7 +16,7 @@ exports.github = {
 
     if (headerSig !== sig) {
       server.log(['github', 'secret'], 'Secret did not match');
-      return Boom.unauthorized('Permission Denied');
+      throw Boom.unauthorized('Permission Denied');
     }
     let event = request.headers['x-github-event'];
     if (event === 'push' && request.payload.deleted) {

@@ -9,8 +9,7 @@ proxy:
     - /dev/null:/traefik.toml
 app:
   build: '.'
-  dockerfile: 'DockerfileDev'
-  command: 'npm run dev'
+  dockerfile: 'Dockerfile'
   environment:
     SECRET: "secret"
     GITHUB_TOKEN:
