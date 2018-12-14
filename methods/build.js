@@ -75,7 +75,7 @@ module.exports = function (config, settings, data) {
         branch,
         dockerfile: item.config.dockerfile || 'Dockerfile',
         context: item.config.context || '.',
-        before
+        before: before || ''
       });
     }
   };
