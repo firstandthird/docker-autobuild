@@ -14,7 +14,7 @@
     "url": "https://github.com/firstandthird/docker-autobuild.git"
   },
   "dependencies": {
-    "boom": "^5.1.0",
+    "boom": "^7.3.0",
     "confi": "^9.5.0",
     "hapi-favicon": "^2.0.0",
     "joi": "^13.1.2",
