@@ -22,7 +22,7 @@
     "p-map": "^1.2.0",
     "rapptor": "^7.4.0",
     "runshell": "^1.0.1",
-    "qs": "^6.6.0",
+    "qs": "^6.6.1",
     "wreck": "^14.0.2"
   },
   "devDependencies": {
